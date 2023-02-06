@@ -10,12 +10,12 @@ Paginate = 6
 googleAnalytics = "G-YDRBDSQ6P9"
 enableRobotsTXT = true
 
-#[languages]
-#  [languages.en]
-#    title = "Ananke"
-#    weight = 1
-#    contentDir = "content/en"
-#    # languageDirection = 'rtl' for Right-To-Left languages
+[languages]
+  [languages.en]
+    title = "ZeroHunger.ai"
+    weight = 1
+    contentDir = "content/en"
+    # languageDirection = 'rtl' for Right-To-Left languages
 #  [languages.de]
 #    title = "Ananke De"
 #    weight = 2
