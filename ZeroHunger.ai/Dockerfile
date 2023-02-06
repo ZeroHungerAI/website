@@ -1,15 +1,18 @@
 # syntax=docker/dockerfile:1
 
 # build environment
-# FROM node:19-alpine as builder
-# WORKDIR /app
+FROM klakegg/hugo:0.101.0-onbuild AS hugo
+
+
+# WORKDIR /src
 # COPY . .
-# COPY .env.example .env
-# RUN yarn
-# RUN yarn build
+
+# RUN git submodule update --init
+# RUN hugo
 # production environment
 FROM nginx:stable-alpine
-#COPY --from=builder /app/build /usr/share/nginx/html
-COPY public /usr/share/nginx/html
+COPY --from=hugo /target /usr/share/nginx/html
+#COPY --from=builder /src/public /usr/share/nginx/html
+#COPY public /usr/share/nginx/html
 EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]
