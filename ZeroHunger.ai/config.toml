@@ -1,0 +1,4 @@
+baseURL = 'http://ZeroHunger.ai/'
+languageCode = 'en-us'
+title = 'ZeroHunger.ai'
+theme = 'ananke'
