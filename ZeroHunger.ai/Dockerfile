@@ -1,14 +1,14 @@
 # syntax=docker/dockerfile:1
 
 # build environment
-FROM klakegg/hugo:0.101.0-onbuild AS hugo
-
-
-# WORKDIR /src
-# COPY . .
-
+FROM klakegg/hugo:ext-ubuntu-onbuild AS hugo
+ENV HUGO_ENV=production
+#ENV GO111MODULE=off
+WORKDIR /src
+COPY . .
 # RUN git submodule update --init
-# RUN hugo
+RUN hugo
+
 # production environment
 FROM nginx:stable-alpine
 COPY --from=hugo /target /usr/share/nginx/html
