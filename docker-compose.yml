@@ -1,0 +1,52 @@
+version: "3.8"
+services:
+    traefik:
+        image: "traefik:v2.9"
+        restart: always
+        command:
+            #- "--log.level=DEBUG"
+            - "--api.insecure=true"
+            - "--providers.docker=true"
+            - "--providers.docker.exposedbydefault=true"
+            - "--entrypoints.web.address=:80"
+            - "--entrypoints.websecure.address=:443"
+            - "--entrypoints.web.http.redirections.entryPoint.to=websecure"
+            - "--entrypoints.web.http.redirections.entryPoint.scheme=https"
+            - "--entrypoints.web.http.redirections.entrypoint.permanent=true"
+            - "--certificatesresolvers.myresolver.acme.email=mmatiaschek@gmail.com"
+            - "--certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json"
+            - "--certificatesresolvers.myresolver.acme.tlschallenge=true"
+        ports:
+            - "443:443"
+            - "80:80"
+            - "8080:8080"
+        # networks:
+        #     - nginx
+        volumes:
+            #- "/letsencrypt:/letsencrypt"
+            - letsencrypt-data:/letsencrypt
+            - "/var/run/docker.sock:/var/run/docker.sock:ro"
+
+    www:
+        build: 
+            context: ./ZeroHunger.ai/
+        # ports:
+        #     - 80:80
+        #     - 443:443
+        # networks:
+        #     - nginx
+        labels:
+            - "traefik.enable=true"
+            - "traefik.port=80"
+            - "traefik.http.routers.nginx.rule=Host(`zerohunger.ai`)"
+            - "traefik.http.routers.nginx.entrypoints=websecure"
+            - "traefik.http.routers.nginx.tls=true"
+            - "traefik.http.routers.nginx.tls.certresolver=myresolver"
+
+
+volumes:
+    letsencrypt-data: ~
+
+# networks:
+#     nginx:
+#         external: true
