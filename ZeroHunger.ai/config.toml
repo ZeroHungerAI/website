@@ -1,4 +1,41 @@
-baseURL = 'http://ZeroHunger.ai/'
-languageCode = 'en-us'
-title = 'ZeroHunger.ai'
-theme = 'ananke'
+title = "ZeroHunger.ai"
+baseURL = "https://ZeroHunger.ai/"
+languageCode = "en-us"
+theme = ["github.com/theNewDynamic/gohugo-theme-ananke"]
+resourceDir = "../resources"
+
+DefaultContentLanguage = "en"
+SectionPagesMenu = "main"
+Paginate = 6
+googleAnalytics = "G-YDRBDSQ6P9"
+enableRobotsTXT = true
+
+#[languages]
+#  [languages.en]
+#    title = "Ananke"
+#    weight = 1
+#    contentDir = "content/en"
+#    # languageDirection = 'rtl' for Right-To-Left languages
+#  [languages.de]
+#    title = "Ananke De"
+#    weight = 2
+#    contentDir = "content/de"
+
+[sitemap]
+  changefreq = "monthly"
+  priority = 0.5
+  filename = "sitemap.xml"
+
+[params]
+  text_color = "black"
+  author = ""
+  favicon = ""
+  site_logo = ""
+  description = "Artificial Intelligence that matters."
+  # choose a background color from any on this page: https://tachyons.io/docs/themes/skins/ and preface it with "bg-"
+  background_color_class = "bg-blue"
+  recent_posts_number = 3
+
+#[[params.ananke_socials]]
+#name = "twitter"
+#url = "https://twitter.com/ZeroHunger.ai"
