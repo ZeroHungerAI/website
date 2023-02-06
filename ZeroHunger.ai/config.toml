@@ -1,5 +1,5 @@
 title = "ZeroHunger.ai"
-baseURL = "https://ZeroHunger.ai/"
+#baseURL = "https://ZeroHunger.ai/"
 languageCode = "en-us"
 theme = ["github.com/theNewDynamic/gohugo-theme-ananke"]
 resourceDir = "../resources"

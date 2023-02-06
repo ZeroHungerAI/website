@@ -1,7 +1,7 @@
 ---
 title: "About"
 description: "Our mission is to contribute with Free Software and AI to the United Nations Sustainable Development Goal 2: Zero Hunger"
-featured_image: '/images/software_solving_world_hunger_digital_art.jpg'
+featured_image: '../images/software_solving_world_hunger_digital_art.jpg'
 menu:
   main:
     weight: 1
