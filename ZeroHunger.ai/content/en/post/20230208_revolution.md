@@ -29,13 +29,13 @@ Traditional non-profit and public organizations are not capable of developing so
 
 The potential for innovative and sustainable AI and software powered services is enormous, because a few good things come together:
 
-1. **Need**: Minimizing human suffering and giving every person a fair chance in life is about the most ambitious, challenging and rewarding problems to solve.
-2. **Money**: There are countless funding opportunities for solutions that contribute to the public good especially the United Nations Sustainable Development Goals.
-3. **People**: The most scarce resource for traditional businesses today is great people, especially AI and software experts. These are people who are especially value-driven and want to do something with purpose and impact. Also the best people look for the greatest challenges. This gives non-profit organizations who know how to enable them to have impact a huge edge.
+1. **Need**: Minimizing human suffering and giving every person a fair chance in life is among the most ambitious, challenging and rewarding problems to solve.
+2. **Money**: There are countless funding and business opportunities for solutions that contribute to the public good, especially the United Nations Sustainable Development Goals.
+3. **People**: The most scarce resource for traditional businesses today is great people, especially AI and software experts. We are especially value-driven and want to do something with purpose and impact. Also the best people look for the greatest challenges. This gives non-profit organizations, who know how to enable them to have impact, a huge edge in attracting talent.
 
-When organizations collaborate and these three things come together, a user with a real problem and the resources and capacity to develop a great solution, amazing things can happen. I have done this with childgrowthmonitor.org and I know how a small idea, if executed correctly can spin into a huge effort and benefit for vulnerable people.
+When organizations collaborate and these three things come together, a user with a real problem and the resources and capacity to develop a great solution, amazing things can happen. I have done this with childgrowthmonitor.org and I know how a small idea, with great execution, can spin into a huge effort and benefit for vulnerable people.
 
-That's why I founded ZeroHunger.ai today. Our goal is to serve the public good by creating an ecosystem of sustainable non-profit software businesses that are competitive and agile. By disrupting the current unsustainable way of doing business, we hope to help solve humanity's most pressing issues and make the world a better place for everyone.
+That's why I founded ZeroHunger.ai today. Our goal is to serve the public good by advancing an ecosystem of sustainable non-profit software businesses that are collaborative, competitive and agile. By disrupting the current unsustainable way of doing business, we hope to help solve humanity's most pressing issues and make the world a better place for everyone.
 
 It's a long journey that will take many small steps by many great people. But our goal is clear - erradicate poverty and hunger by 2030. Empower the people to use AI for the public good. It will be a slow revolution at the start, but working together, I'm sure we will get there.
 
