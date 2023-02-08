@@ -36,6 +36,10 @@ enableRobotsTXT = true
   background_color_class = "bg-blue"
   recent_posts_number = 3
 
-#[[params.ananke_socials]]
 #name = "twitter"
 #url = "https://twitter.com/ZeroHunger.ai"
+[[params.ananke_socials]]
+  name = "github"
+  url = "https://github.com/mmatiaschek"
+  #label = "TND GitHub Account"
+  #color = '#ff6800'
