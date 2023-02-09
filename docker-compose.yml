@@ -4,7 +4,6 @@ services:
         image: "traefik:v2.9"
         restart: always
         command:
-            #- "--log.level=DEBUG"
             - "--api.insecure=true"
             - "--providers.docker=true"
             - "--providers.docker.exposedbydefault=true"
@@ -20,21 +19,13 @@ services:
             - "443:443"
             - "80:80"
             - "8080:8080"
-        # networks:
-        #     - nginx
         volumes:
-            #- "/letsencrypt:/letsencrypt"
             - letsencrypt-data:/letsencrypt
             - "/var/run/docker.sock:/var/run/docker.sock:ro"
 
     www:
         build: 
             context: ./ZeroHunger.ai/
-        # ports:
-        #     - 80:80
-        #     - 443:443
-        # networks:
-        #     - nginx
         labels:
             - "traefik.enable=true"
             - "traefik.port=80"
@@ -46,7 +37,3 @@ services:
 
 volumes:
     letsencrypt-data: ~
-
-# networks:
-#     nginx:
-#         external: true

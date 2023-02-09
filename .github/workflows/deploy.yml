@@ -23,6 +23,6 @@
 
       - name: Deploy Docker Containers
         run: |
-          docker-compose --context prod -f docker-compose.yml up --build --remove-orphans -d
+          docker-compose --context prod -f docker-compose.yml up --build --force-recreate --remove-orphans -d
         env:
           HUGO_ENV: production

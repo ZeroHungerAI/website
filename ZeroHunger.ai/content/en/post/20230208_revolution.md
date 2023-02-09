@@ -15,7 +15,7 @@ description: ""
 - serving the public good with an ecosystem of sustainable non-profit software businesses which are competitive and agile is a viable strategy for disrupting the current unsustainable way of doing business with a sustainable way that can help solve humanities most pressing issues
 -->
 
-Today I founded Zero Hunger AI UG (Haftungsbeschränkt) with the intention of developing it into a non-profit software business gGmbH.
+Today I founded Zero Hunger AI UG (haftungsbeschränkt) with the intention of developing it into a non-profit software business gGmbH.
 
 I think of this as joining a revolution. Let me explain you why.
 
