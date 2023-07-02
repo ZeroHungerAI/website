@@ -22,7 +22,7 @@ Use the form below to tell us how software or AI can help you or the people you 
 
 ## Together, We're a Great Team
 
-We'll give you the right people and tools. In just two months, you'll have a simple version of your product that makes your work better.
+We'll give you the right people and tools. In just two months, you'll have a simple version of the product that makes your work better.
 
 ## We Keep Making Things Better
 

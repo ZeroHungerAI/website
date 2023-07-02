@@ -6,15 +6,15 @@ featured_image: ""
 description: ""
 ---
 
-As we embark on this journey to tackle one of humanity's most pressing challenges - hunger and poverty, it's important to outline our strategy. This is not a business plan, but a call to action for everyone who believes in a world where hunger and poverty are relics of the past.
+As we embark on this journey to tackle some of humanity's most pressing challenges - hunger and poverty, it's important to outline our strategy. This is not a business plan, but a call to action for everyone who believes in a world where hunger and poverty are relics of the past.
 
 ## Phase 1: Establishing the Foundation
 
-ZeroHunger.ai will initially offer consulting services in AI and software development. This will provide the necessary resources to establish ZeroHunger.ai as a non-profit organization. Our consulting services will help other organizations achieve their goals, creating a ripple effect of positive change.
+ZeroHunger.ai offers consulting services in AI and software development. This provides the necessary resources to establish ZeroHunger.ai as a non-profit organization. Our consulting services help other organizations achieve their goals, creating a ripple effect of positive change.
 
 ## Phase 2: Scaling Impact
 
-Once we have established a stable foundation, we will expand our offerings to include the development and operation of AI and software solutions. These solutions will be designed to support the United Nations' Sustainable Development Goals (SDGs), specifically the eradication of hunger and poverty. Our unique non-profit business model will allow us to collaborate with NGOs and other organizations to maximize our impact.
+As we are establishing a stable foundation, we expand our offerings to include the development and operation of AI and software solutions. These solutions will be designed to support the United Nations' Sustainable Development Goals (SDGs), specifically the eradication of hunger and poverty. Our unique non-profit business model allows us to collaborate with NGOs and other organizations to maximize our impact.
 
 ## Phase 3: Transforming the World
 
