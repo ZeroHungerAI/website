@@ -4,7 +4,7 @@ title: "ZeroHunger.ai"
 description: "A non-profit software business to accelerate your Impact!"
 menu: 
   main:
-    name: "Start a Product"
+    name: "Launch Your Product"
     weight: 1
 
 theme_version: '2.8.2'
@@ -12,26 +12,28 @@ cascade:
   featured_image: '../images/workshop.jpg'
 ---
 
-# Start your product now!
+# Start Your Product Today!
 
 Accelerate your Impact with Software and AI.
-## Tell us about your challenge
 
-Tell us about your challenge and how AI or software could help for a chance to have your product up and running in the first batch in 2023 or book a meeting immediately!
-## Together, we are the perfect team
+## What's Your Challenge?
 
-We will provide you with the right people and resources. Within two months you will get a minumum viable product that solves your problem.
+Use the form below to tell us how software or AI can help you or the people you work with. Or, book a meeting now to turn your idea into a product in the next development cycle.
 
-## We ensure continuous improvement and operations
+## Together, We're a Great Team
 
-Once the product is up and running, we reinvest all revenue and available funding into further development and sustainable operations. You can continue to steer the direction to ensure an increasingly useful application for your organization, projects and programmes.
+We'll give you the right people and tools. In just two months, you'll have a simple version of your product that makes your work better.
 
+## We Keep Making Things Better
+
+Once your product is working, we put all its revenue and available funding into making it better and keeping it running. Continue to guide the way, to ensure an increasingly useful application for your organization, projects and programmes.
 
 {{< form-contact action="https://fabform.io/f/-xMvsgp"  >}}
 
 ---
 
 # OR
+
 ---
 
 {{< rawhtml >}}
