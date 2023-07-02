@@ -2,8 +2,8 @@
 title: Imprint
 omit_header_text: true
 type: page
-menu:
-  - main
+# menu:
+#   - main
 ---
 
 **Legal notice**
