@@ -1,8 +1,8 @@
 ---
 title: Contribute
 featured_image: '../images/contact.jpg'
-omit_header_text: true
-description: We'd love to hear from you
+#omit_header_text: true
+description: Volunteers wanted!
 type: page
 menu: main
 weight: 2

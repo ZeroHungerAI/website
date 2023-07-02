@@ -1,7 +1,7 @@
 ---
 title: "ZeroHunger.ai"
 
-description: "A non-profit software business."
+description: "A non-profit software business to accelerate your Impact!"
 menu: 
   main:
     name: "Start a Product"
@@ -27,6 +27,11 @@ Once the product is up and running, we reinvest all revenue and available fundin
 Tell us about your challenge and how AI or software could help for a chance to have your product up and running in the first batch in 2023 or book a meeting immediately!
 
 {{< form-contact action="https://fabform.io/f/-xMvsgp"  >}}
+
+---
+
+# OR
+---
 
 {{< rawhtml >}}
 <iframe src='https://outlook.office365.com/owa/calendar/Bookameeting@zerohunger.ai/bookings/' width='100%' height='1100' scrolling='yes' style='border:0'></iframe>
