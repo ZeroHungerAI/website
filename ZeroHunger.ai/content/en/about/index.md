@@ -1,10 +1,10 @@
 ---
 title: "About"
-description: "Our mission is to contribute with Free Software and AI to the United Nations Sustainable Development Goal 2: Zero Hunger"
-featured_image: '../images/software_solving_world_hunger_digital_art.jpg'
+description: "Our mission is to contribute with Free Software and AI to the United Nations Sustainable Development Goals"
+featured_image: '../images/software_and_AI_solving_world_hunger.jpg'
 menu:
   main:
-    weight: 1
+    weight: 9
 ---
 <!-- {{< figure src="/images/software_solving_world_hunger_digital_art.jpg" title="" >}} -->
 

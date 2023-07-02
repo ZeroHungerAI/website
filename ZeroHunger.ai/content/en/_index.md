@@ -1,15 +1,33 @@
 ---
 title: "ZeroHunger.ai"
 
-description: "Products that matter."
+description: "A non-profit software business."
+menu: 
+  main:
+    name: "Start a Product"
+    weight: 1
 
 theme_version: '2.8.2'
 cascade:
-  featured_image: '../images/software_and_AI_solving_world_hunger.jpg'
+  featured_image: '../images/workshop.jpg'
 ---
 
-At ZeroHunger.ai, our mission is to contribute to the elimination of global hunger through the development of innovative and impactful artificial intelligence and software services. We believe that by collaborating with organizations and individuals and giving them the right tools and technology, Zero Hunger can be achieved by 2030.
+# Start your product now!
 
-Our goal is to work together in a collaborative, open, and sustainable way to develop solutions that will make a lasting impact.
+## Together, we are the perfect team
 
-If you share our mission or have the need for innovative software, get in touch.
+We will provide you with the right people and resources. Within two months you will get a minumum viable product that solves your problem.
+
+## We ensure continuous improvement and operations
+
+Once the product is up and running, we reinvest all revenue and available funding into further development and sustainable operations. You can continue to steer the direction to ensure an increasingly useful application for your organization, projects and programmes.
+
+## Tell us about your challenge
+
+Tell us about your challenge and how AI or software could help for a chance to have your product up and running in the first batch in 2023 or book a meeting immediately!
+
+{{< form-contact action="https://fabform.io/f/-xMvsgp"  >}}
+
+{{< rawhtml >}}
+<iframe src='https://outlook.office365.com/owa/calendar/Bookameeting@zerohunger.ai/bookings/' width='100%' height='1100' scrolling='yes' style='border:0'></iframe>
+{{< /rawhtml >}}

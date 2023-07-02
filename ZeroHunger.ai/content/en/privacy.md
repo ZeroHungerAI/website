@@ -2,8 +2,8 @@
 title: Privacy policy
 type: page
 omit_header_text: true
-menu: 
-  - main
+#menu: 
+#  - main
 ---
 
 ### Google Analytics

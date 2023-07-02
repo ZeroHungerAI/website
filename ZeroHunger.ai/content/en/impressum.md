@@ -1,22 +1,25 @@
 ---
-title: Impressum
+title: Imprint
 omit_header_text: true
 type: page
-menu:
-  - main
+# menu:
+#   - main
 ---
 
-Angaben gemäß § 5 TMG
+**Legal notice**
 
-Zero Hunger AI (UG in Gründung)
- 
+Zero Hunger AI UG (haftungsbeschränkt))
+
 Hublandplatz 1
- 
+
 97074 Würzburg 
  
+- Registration Court: Würzburg
+- Registration Number: HRB 16683
+- VAT Identification Number: DE360346384
 
 
- **Vertreten durch:**
+**Vertreten durch:**
  
 Markus Matiaschek
 
@@ -24,10 +27,7 @@ Markus Matiaschek
 
 **Kontakt**
 
-
-https://github.com/mmatiaschek
-
-gmail.com
+info@zerohunger.ai
 
 
 **Haftungsausschluss:**
