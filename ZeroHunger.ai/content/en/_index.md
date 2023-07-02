@@ -14,6 +14,10 @@ cascade:
 
 # Start your product now!
 
+Accelerate your Impact with Software and AI.
+## Tell us about your challenge
+
+Tell us about your challenge and how AI or software could help for a chance to have your product up and running in the first batch in 2023 or book a meeting immediately!
 ## Together, we are the perfect team
 
 We will provide you with the right people and resources. Within two months you will get a minumum viable product that solves your problem.
@@ -22,9 +26,6 @@ We will provide you with the right people and resources. Within two months you w
 
 Once the product is up and running, we reinvest all revenue and available funding into further development and sustainable operations. You can continue to steer the direction to ensure an increasingly useful application for your organization, projects and programmes.
 
-## Tell us about your challenge
-
-Tell us about your challenge and how AI or software could help for a chance to have your product up and running in the first batch in 2023 or book a meeting immediately!
 
 {{< form-contact action="https://fabform.io/f/-xMvsgp"  >}}
 
