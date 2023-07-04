@@ -10,11 +10,11 @@ As we embark on this journey to tackle some of humanity's most pressing challeng
 
 ## Phase 1: Establishing the Foundation
 
-ZeroHunger.ai offers consulting services in AI and software development. This provides the necessary resources to establish ZeroHunger.ai as a non-profit organization. Our consulting services help other organizations achieve their goals, creating a ripple effect of positive change.
+ZeroHunger.ai offers consulting services in AI and software development. This provides the necessary resources to establish ZeroHunger.ai as a healthy social business. Our consulting services help other organizations achieve their goals, creating a ripple effect of positive change.
 
 ## Phase 2: Scaling Impact
 
-As we are establishing a stable foundation, we expand our offerings to include the development and operation of AI and software solutions. These solutions will be designed to support the United Nations' Sustainable Development Goals (SDGs), specifically the eradication of hunger and poverty. Our unique non-profit business model allows us to collaborate with NGOs and other organizations to maximize our impact.
+As we are establishing a stable foundation, we expand our offerings to include the development and operation of AI and software solutions. These solutions will be designed to support the United Nations' Sustainable Development Goals (SDGs), specifically the eradication of hunger and poverty. Through providing free software and free or affordable software services to vulnerable groups of people, we will achieve non-profit status. This allows us to scale our impact rapidly through easier collaboration with non-profit, UN and governmental organizations as well as our community of contributors.
 
 ## Phase 3: Transforming the World
 
