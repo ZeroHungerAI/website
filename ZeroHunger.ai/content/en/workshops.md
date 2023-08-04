@@ -13,6 +13,14 @@ weight: 3
 
 We are offering workshops to tech SMEs who are applicable to get support from the GIZ special initiative "Invest for Jobs" on behalf of the Federal Ministry for Economic Cooperation and Development.
 
+Some workshops have already been planned, more to come...
+
+|   |                                                   |               |        |
+| ----- | ------------------------------------------------------ | ------------------ | ----------------- |
+| 10.08.   | Product Validation                                     | Product Management | Georg Warth       |
+| 15.08.   | User-Centric Design                                    | Product Management | Georg Warth       |
+| 17.08.   | Aligning businesses through purpose, values & strategy | Strategy           | Markus Matiaschek |
+
 ## Fill out the form below to upskill your business!
 
 {{< rawhtml >}}
