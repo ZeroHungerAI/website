@@ -1,6 +1,5 @@
-
 ---
-  name: 'Deploy Docker Containers'
+  name: 'Deploy to Azure Storage Account'
 
   on:
     workflow_call:
@@ -12,21 +11,23 @@
       steps:
       - uses: actions/checkout@v2
 
-      - name: Install SSH key
-        uses: shimataro/ssh-key-action@v2
+      - name: Azure login
+        uses: azure/login@v1
         with:
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          known_hosts: ${{ vars.SSH_FINGERPRINT }}
+          creds: ${{ secrets.AZURE_SERVICE_PRINCIPAL }}
 
-      - name: Create docker context
-        run: docker context create prod --docker "host=ssh://${{ vars.REMOTE_USER }}@${{ vars.REMOTE_HOST }}"
-
-      - name: Workaround prune www container
+      - name: Build gohugo.ai website
         run: |
-          docker-compose --context prod -f docker-compose.yml down --rmi local
+          cd ZeroHunger.ai
+          hugo
+        shell: bash
 
-      - name: Deploy Docker Containers
-        run: |
-          docker-compose --context prod -f docker-compose.yml up --build --force-recreate --remove-orphans -d
+      - name: Deploy to Azure Storage Account
+        uses: azure/CLI@v1
+        with:
+          azcliversion: 2.0.72
+          inlineScript: |
+            az storage blob upload-batch --account-name ${{ secrets.AZURE_STORAGE_ACCOUNT_NAME }} --source ./public --destination '$web'
         env:
-          HUGO_ENV: production
+          AZURE_STORAGE_ACCOUNT_NAME: ${{ secrets.AZURE_STORAGE_ACCOUNT_NAME }}
+          AZURE_STORAGE_ACCOUNT_KEY: ${{ secrets.AZURE_STORAGE_ACCOUNT_KEY }}
