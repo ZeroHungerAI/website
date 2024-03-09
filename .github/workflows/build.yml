@@ -1,5 +1,5 @@
 ---
-name: 'Build Hugo Website'
+name: 'Build goHugo.ai Website for ZeroHunger.ai'
 
 on:
   workflow_call:
