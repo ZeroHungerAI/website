@@ -32,7 +32,8 @@ TODO role
 {
   "clientId": "<appId>",
   "clientSecret": "<password>",
-  "tenantId": "<tenant>"
+  "tenantId": "<tenant>",
+  "subscriptionId": "<subscriptionId>"
 }
 ```
 
