@@ -27,6 +27,13 @@
         with:
           creds: ${{ secrets.AZURE_SERVICE_PRINCIPAL }}
 
+      - name: Set active subscription
+        uses: azure/CLI@v1
+        with:
+          azcliversion: 2.0.72
+          inlineScript: |
+            az account set --subscription ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+          
       - name: Deploy to Azure Storage Account
         uses: azure/CLI@v1
         with:
