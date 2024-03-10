@@ -19,7 +19,7 @@
       steps:
       - name: Check if environment is set up through setup.sh
         run: |
-          if [[ -z "${{ env.AZURE_SERVICE_PRINCIPAL }}" || -z "${{ env.AZURE_SUBSCRIPTION_ID }}" || -z "${{ env.AZURE_STORAGE_ACCOUNT_NAME }}" ]]; then
+          if [[ -z "${{ secrets.AZURE_SERVICE_PRINCIPAL }}" || -z "${{ secrets.AZURE_SUBSCRIPTION_ID }}" || -z "${{ secrets.AZURE_STORAGE_ACCOUNT_NAME }}" ]]; then
             echo "Please run az_setup.sh first to set up the environment and secrets."
             exit 1
           fi
@@ -27,12 +27,12 @@
       - name: Azure login
         uses: azure/login@v1
         with:
-          creds: ${{ env.AZURE_SERVICE_PRINCIPAL }}
+          creds: ${{ secrets.AZURE_SERVICE_PRINCIPAL }}
   
       - name: Create storage account and setup for static website hosting
         run: |
-          az storage account create --name ${{ env.AZURE_STORAGE_ACCOUNT_NAME }} --resource-group $resourceGroupName --location $location --sku Standard_LRS --auth-mode login
-          az storage blob service-properties update --account-name ${{ env.AZURE_STORAGE_ACCOUNT_NAME }} --static-website --404-document 404.html --index-document index.html --auth-mode login
+          az storage account create --name ${{ secrets.AZURE_STORAGE_ACCOUNT_NAME }} --resource-group $resourceGroupName --location $location --sku Standard_LRS --auth-mode login
+          az storage blob service-properties update --account-name ${{ secrets.AZURE_STORAGE_ACCOUNT_NAME }} --static-website --404-document 404.html --index-document index.html --auth-mode login
 
 
     # DNS:
@@ -43,7 +43,7 @@
     #   - name: Azure login
     #     uses: azure/login@v1
     #     with:
-    #       creds: ${{ env.AZURE_SERVICE_PRINCIPAL }}
+    #       creds: ${{ secrets.AZURE_SERVICE_PRINCIPAL }}
 
     #   - name: Create Resource Group
     #     uses: azure/CLI@v1
