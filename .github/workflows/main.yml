@@ -30,8 +30,14 @@ jobs:
 
       - name: Infrastructure
         uses: ./.github/workflows/infrastructure.yml
-        secrets: inherit
+        env:
+          AZURE_SERVICE_PRINCIPAL: ${{ secrets.AZURE_SERVICE_PRINCIPAL }}
+          AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+          AZURE_STORAGE_ACCOUNT_NAME: ${{ secrets.AZURE_STORAGE_ACCOUNT_NAME }}
 
       - name: Deploy
         uses: ./.github/workflows/deploy.yml
-        secrets: inherit
+        env:
+          AZURE_SERVICE_PRINCIPAL: ${{ secrets.AZURE_SERVICE_PRINCIPAL }}
+          AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+          AZURE_STORAGE_ACCOUNT_NAME: ${{ secrets.AZURE_STORAGE_ACCOUNT_NAME }}
