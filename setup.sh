@@ -31,8 +31,8 @@ az group create --name $resourceGroupName --location $location
 # Create service principal
 sp_credentials=$(az ad sp create-for-rbac --name "ZeroHunger$service-$environment" --role contributor --scopes /subscriptions/$subscriptionId/resourceGroups/$resourceGroupName)
 
-# Ensure sp_credentials is a valid JSON string with all necessary fields
-#sp_credentials='{"appId": "your-app-id", "password": "your-password", "tenant": "your-tenant", "subscriptionId": "your-subscription-id"}'
+# Add subscriptionId to sp_credentials
+sp_credentials=$(echo $sp_credentials | jq --arg subscriptionId "$subscriptionId" '. + {subscriptionId: $subscriptionId}')
 
 # Transform the credentials
 transformed_credentials=$(echo $sp_credentials | jq '{clientId: .appId, clientSecret: .password, tenantId: .tenant, subscriptionId: .subscriptionId}')
