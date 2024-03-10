@@ -45,6 +45,7 @@ gh secret set AZURE_SUBSCRIPTION_ID -b"$subscriptionId" -e"$environment"
 gh secret set AZURE_STORAGE_ACCOUNT_NAME -b"$storageAccountName" -e"$environment"
 gh secret set AZURE_RESOURCE_GROUP -b"$resourceGroupName" -e"$environment"
 gh secret set AZURE_LOCATION -b"$location" -e"$environment"
+#gh secret set AZURE_STORAGE_ACCOUNT_KEY
 #gh secret set AZURE_TENANT_ID -b"$tenantId" -e"$environment"
 #gh secret set AZURE_CLIENT_ID -b"$(echo $sp_credentials | jq -r '.appId')" -e"$environment"
 #gh secret set AZURE_CLIENT_SECRET -b"$(echo $sp_credentials | jq -r '.password')" -e"$environment"
