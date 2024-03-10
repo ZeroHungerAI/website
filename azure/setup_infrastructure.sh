@@ -7,16 +7,26 @@ echo "Setting up infrastructure for ZeroHunger.ai website"
 echo "First, we login and create a service principal for the website"
 az login
 echo "Please provide the following details:"
-read -p "tenantId: " tenantId
-read -p "subscriptionId: " subscriptionId
-read -p "environment (qa/www): " env
+# Check if tenantId is set
+if [ -z "$tenantId" ]; then
+    read -p "Enter your tenantId:" tenantId
+fi
+# Check if subscriptionId is set
+if [ -z "$subscriptionId" ]; then
+    read -p "Enter your subscriptionId:" subscriptionId
+fi
+# Check if environment is set
+if [ -z "$environment" ]; then
+    read -p "environment (qa/www): " environment
+fi
+
 location="westeurope"
-resourceGroupName="rg-website-$env-$location"
+resourceGroupName="rg-website-$environment-$location"
 echo "resourceGroupName: $resourceGroupName"
-storageAccountName="stwebsite$env"
+storageAccountName="stwebsite$environment"
 echo "storageAccountName: $storageAccountName"
 
-read -p "Creating resource group, press enter to continue"
+#read -p "Creating resource group, press enter to continue"
 echo "Create Resource Group for the website and storage account"
 az group create --name $resourceGroupName --location $location
 
@@ -27,7 +37,7 @@ sp_credentials=$(az ad sp create-for-rbac --name "ZeroHungerWebsite" --role cont
 transformed_credentials=$(echo $sp_credentials | jq '{clientId: .appId, clientSecret: .password, tenantId: .tenant, subscriptionId: .subscriptionId}')
 
 # Set the transformed output as a GitHub secret
-echo $transformed_credentials | gh secret set AZURE_SERVICE_PRINCIPAL
+echo $transformed_credentials | gh secret set AZURE_SERVICE_PRINCIPAL -e"$environment"
 # {
 #   "clientId": "<appId>",
 #   "clientSecret": "<password>",
@@ -44,16 +54,20 @@ echo $transformed_credentials | gh secret set AZURE_SERVICE_PRINCIPAL
 # az role assignment create --assignee $clientId --role "DNS Zone Contributor" --scope /subscriptions/$subscriptionId
 
 
-echo "Create Storage Account for the website"
-az storage account create --name $storageAccountName --resource-group $resourceGroupName --location $location --sku Standard_LRS
-echo "Enable static website hosting"
-az storage blob service-properties update --account-name $storageAccountName --static-website --404-document 404.html --index-document index.html
+# Log in as the service principal
+az login --service-principal --username $clientId --password $clientSecret --tenant $tenantId
+
+# Create the storage account
+az storage account create --name $storageAccountName --resource-group $resourceGroupName --location $location --sku Standard_LRS --auth-mode login
+
+# Enable static website hosting
+az storage blob service-properties update --account-name $storageAccountName --static-website --404-document 404.html --index-document index.html --auth-mode login
 
 echo "Storage Account Name: $storageAccountName"
 storageAccountKey=$(az storage account keys list --account-name $storageAccountName --resource-group $resourceGroupName --query "[0].value" --output tsv)
 
-gh secret set AZURE_STORAGE_ACCOUNT_NAME -b"$storageAccountName"
-gh secret set AZURE_SUBSCRIPTION_ID -b"$subscriptionId"
+gh secret set AZURE_STORAGE_ACCOUNT_NAME -b"$storageAccountName" -e"$environment"
+gh secret set AZURE_SUBSCRIPTION_ID -b"$subscriptionId" -e"$environment
 #gh secret set AZURE_STORAGE_ACCOUNT_KEY -b"$storageAccountKey"
 
 # Create Key Vault
