@@ -16,6 +16,11 @@
         with:
           name: public
 
+      - name: List directory contents
+        run: |
+          pwd
+          ls -la
+
       - name: Azure login
         uses: azure/login@v1
         with:

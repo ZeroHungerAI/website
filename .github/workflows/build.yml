@@ -22,6 +22,8 @@ jobs:
       run: |
         cd ZeroHunger.ai
         hugo --minify
+        ls -la
+        ls -la public
 
     - name: Archive production artifacts
       uses: actions/upload-artifact@v2
