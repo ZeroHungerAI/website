@@ -15,6 +15,7 @@
         uses: actions/download-artifact@v2
         with:
           name: public
+          path: ./public
 
       - name: List directory contents
         run: |
@@ -31,7 +32,7 @@
         with:
           azcliversion: 2.0.72
           inlineScript: |
-            az storage blob upload-batch --account-name ${{ secrets.AZURE_STORAGE_ACCOUNT_NAME }} --source ./ZeroHunger.ai/public --destination '$web'
+            az storage blob upload-batch --account-name ${{ secrets.AZURE_STORAGE_ACCOUNT_NAME }} --source ./public --destination '$web'
         env:
           AZURE_STORAGE_ACCOUNT_NAME: ${{ secrets.AZURE_STORAGE_ACCOUNT_NAME }}
           AZURE_STORAGE_ACCOUNT_KEY: ${{ secrets.AZURE_STORAGE_ACCOUNT_KEY }}
