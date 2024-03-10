@@ -22,10 +22,10 @@
           pwd
           ls -la
 
-      - name: Azure login
-        uses: azure/login@v1
-        with:
-          creds: ${{ secrets.AZURE_SERVICE_PRINCIPAL }}
+#      - name: Azure login
+#        uses: azure/login@v1
+#        with:
+#          creds: ${{ secrets.AZURE_SERVICE_PRINCIPAL }}
 
       - name: Deploy to Azure Storage Account
         uses: azure/CLI@v1
