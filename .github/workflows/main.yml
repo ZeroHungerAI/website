@@ -8,23 +8,9 @@ on:
 
 jobs:
   pipeline:
-    strategy:
-      matrix:
-        environment: [qa, www]
     runs-on: ubuntu-latest
     environment: ${{ matrix.environment }}
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: Set environment based on tag
-        run: |
-          if [[ "${{ github.ref }}" == *"rc"* ]]; then
-            echo "ENVIRONMENT=qa" >> $GITHUB_ENV
-          else
-            echo "ENVIRONMENT=www" >> $GITHUB_ENV
-          fi
-
+  
       - name: Build
         uses: ./.github/workflows/build.yml
 
