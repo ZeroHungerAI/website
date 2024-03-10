@@ -19,10 +19,12 @@ jobs:
         extended: true
 
     - name: Build
-      run: hugo --minify
+      run: |
+        cd ZeroHunger.ai
+        hugo --minify
 
     - name: Archive production artifacts
       uses: actions/upload-artifact@v2
       with:
         name: public
-        path: public/
+        path: ZeroHunger.ai/public/
