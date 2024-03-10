@@ -9,7 +9,8 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    using: 'composite'
+    environment: ${{ startsWith(github.ref_name, 'v') && contains(github.ref_name, '-rc') && 'qa' || 'www' }}
+    #using: 'composite'
     steps:
     - uses: actions/checkout@v2
 

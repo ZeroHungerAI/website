@@ -9,18 +9,12 @@ on:
 jobs:
   build:
     uses: ./.github/workflows/build.yml
-    with:
-      environment: ${{ startsWith(github.ref_name, 'v') && contains(github.ref_name, '-rc') && 'qa' || 'www' }}
 
   infrastructure:
     uses: ./.github/workflows/infrastructure.yml
-    with:
-      environment: ${{ startsWith(github.ref_name, 'v') && contains(github.ref_name, '-rc') && 'qa' || 'www' }}
     secrets: inherit
     
   deploy:
     needs: build
     uses: ./.github/workflows/deploy.yml
-    with:
-      environment: ${{ startsWith(github.ref_name, 'v') && contains(github.ref_name, '-rc') && 'qa' || 'www' }}
     secrets: inherit
