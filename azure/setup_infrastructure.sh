@@ -23,8 +23,11 @@ az group create --name $resourceGroupName --location $location
 # Create the service principal and capture the output
 sp_credentials=$(az ad sp create-for-rbac --name "ZeroHungerWebsite" --role contributor --scopes /subscriptions/$subscriptionId/resourceGroups/$resourceGroupName --sdk-auth)
 
-# Set the output as a GitHub secret
-echo $sp_credentials | gh secret set AZURE_SERVICE_PRINCIPAL
+# Transform the output
+transformed_credentials=$(echo $sp_credentials | jq '{clientId: .appId, clientSecret: .password, tenantId: .tenant, subscriptionId: .subscriptionId}')
+
+# Set the transformed output as a GitHub secret
+echo $transformed_credentials | gh secret set AZURE_SERVICE_PRINCIPAL
 # {
 #   "clientId": "<appId>",
 #   "clientSecret": "<password>",
@@ -50,7 +53,8 @@ echo "Storage Account Name: $storageAccountName"
 storageAccountKey=$(az storage account keys list --account-name $storageAccountName --resource-group $resourceGroupName --query "[0].value" --output tsv)
 
 gh secret set AZURE_STORAGE_ACCOUNT_NAME -b"$storageAccountName"
-gh secret set AZURE_STORAGE_ACCOUNT_KEY -b"$storageAccountKey"
+gh secret set AZURE_SUBSCRIPTION_ID -b"$subscriptionId"
+#gh secret set AZURE_STORAGE_ACCOUNT_KEY -b"$storageAccountKey"
 
 # Create Key Vault
 # az keyvault create --name websiteqakeyvault --resource-group $resourceGroupName --location $location
