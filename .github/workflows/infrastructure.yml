@@ -11,6 +11,7 @@
   jobs:
     Storage:
       runs-on: ubuntu-latest
+      using: 'composite'
       steps:
       - name: Check if environment is set up through setup.sh
         run: |
