@@ -22,14 +22,14 @@
         with:
           creds: ${{ secrets.AZURE_SERVICE_PRINCIPAL }}
 
-          - name: Create storage account, set storage account key as github secret, setup for static website hosting
-          run: |
+      - name: Create storage account, set storage account key as github secret, setup for static website hosting
+        run: |
           az storage account create --name ${{ secrets.AZURE_STORAGE_ACCOUNT_NAME }} --resource-group ${{ secrets.AZURE_RESOURCE_GROUP }} --location ${{ secrets.AZURE_LOCATION }} --sku Standard_LRS --auth-mode login
           az storage blob service-properties update --account-name ${{ secrets.AZURE_STORAGE_ACCOUNT_NAME }} --static-website --404-document 404.html --index-document index.html --auth-mode login
-          
-          # TODO needs workaround for setting storage account key as github secret
-          
-          # az storage account keys list --account-name ${{ secrets.AZURE_STORAGE_ACCOUNT_NAME }} --resource-group ${{ secrets.AZURE_RESOURCE_GROUP }} --auth-mode login --query "[0].value" --output tsv
+        
+        # TODO needs workaround for setting storage account key as github secret
+
+        # az storage account keys list --account-name ${{ secrets.AZURE_STORAGE_ACCOUNT_NAME }} --resource-group ${{ secrets.AZURE_RESOURCE_GROUP }} --auth-mode login --query "[0].value" --output tsv
           
           # DNS:
     #   runs-on: ubuntu-latest
