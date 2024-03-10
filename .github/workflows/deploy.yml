@@ -33,8 +33,6 @@
         with:
           azcliversion: 2.0.72
           inlineScript: |
+            az account show
             az account set --subscription ${{ secrets.AZURE_SUBSCRIPTION_ID }}
             az storage blob upload-batch --account-name ${{ secrets.AZURE_STORAGE_ACCOUNT_NAME }} --source ./public --destination '$web'
-      # env:
-      #   AZURE_STORAGE_ACCOUNT_NAME: ${{ secrets.AZURE_STORAGE_ACCOUNT_NAME }}
-      #   AZURE_STORAGE_ACCOUNT_KEY: ${{ secrets.AZURE_STORAGE_ACCOUNT_KEY }}
