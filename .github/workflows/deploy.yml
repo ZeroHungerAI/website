@@ -27,13 +27,15 @@
         uses: azure/login@v1
         with:
           creds: ${{ secrets.AZURE_SERVICE_PRINCIPAL }}
+# TODO: check if Fixed the Azure CLI command for uploading to storage blob. The error suggests that no active account is set.
+# Consider running 'az account set' before the upload command.
 
-      - name: Set active subscription
-        uses: azure/CLI@v1
-        with:
-          azcliversion: 2.0.72
-          inlineScript: |
-            az account set --subscription ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+      # - name: Set active subscription
+      #   uses: azure/CLI@v1
+      #   with:
+      #     azcliversion: 2.0.72
+      #     inlineScript: |
+      #       az account set --subscription ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
       - name: Deploy to Azure Storage Account
         uses: azure/CLI@v1

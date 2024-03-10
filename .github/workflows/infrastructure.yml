@@ -29,7 +29,9 @@
         uses: azure/login@v1
         with:
           creds: ${{ secrets.AZURE_SERVICE_PRINCIPAL }}
-  
+    # TODO: Fix the transformation of credentials. The Azure login is failing because not all parameters are provided in 'creds'.
+    # Check the transformation at line 27:
+    # transformed_credentials=$(echo $sp_credentials | jq '{clientId: .appId, clientSecret: .password, tenantId: .tenant, subscriptionId: .subscriptionId}')
       - name: Create storage account and setup for static website hosting
         run: |
           az storage account create --name ${{ secrets.AZURE_STORAGE_ACCOUNT_NAME }} --resource-group $resourceGroupName --location $location --sku Standard_LRS --auth-mode login

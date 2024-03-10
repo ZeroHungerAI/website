@@ -42,7 +42,7 @@ transformed_credentials=$(echo $sp_credentials | jq '{clientId: .appId, clientSe
 # Fix the transformation of credentials. The Azure login is failing because not all parameters are provided in 'creds'.
 # Check the transformation at line 27:
 # transformed_credentials=$(echo $sp_credentials | jq '{clientId: .appId, clientSecret: .password, tenantId: .tenant, subscriptionId: .subscriptionId}')
-set -x
+
 # Set the transformed output as a GitHub secret
 echo $transformed_credentials | gh secret set AZURE_SERVICE_PRINCIPAL -e"$environment"
 gh secret set AZURE_SUBSCRIPTION_ID -b"$subscriptionId" -e"$environment"
@@ -50,10 +50,17 @@ gh secret set AZURE_STORAGE_ACCOUNT_NAME -b"$storageAccountName" -e"$environment
 # Run az_dns_setup.sh
 ./az_dns_setup.sh
 
-# DEBUG ECHO STATEMENTS
-echo "sp_credentials: $sp_credentials"
-echo "transformed_credentials: $transformed_credentials"
-echo "subscriptionId: $subscriptionId"
-echo "storageAccountName: $storageAccountName"
-echo "resourceGroupName: $resourceGroupName"
-echo "environment: $environment"
+# Azure login
+az login --service-principal -u $clientId -p $clientSecret --tenant $tenantId
+
+# Create storage account and setup for static website hosting
+az storage account create --name $storageAccountName --resource-group $resourceGroupName --location $location --sku Standard_LRS --auth-mode login
+az storage blob service-properties update --account-name $storageAccountName --static-website --404-document 404.html --index-document index.html --auth-mode login
+
+# Create Key Vault
+#az keyvault create --name zerohungerqakeyvault --resource-group zerohunger-qa-rg --location eastus
+
+# Setup DNS
+#az network dns zone create --name zerohunger.ai --resource-group zerohunger-qa-rg
+#az network dns record-set cname add-record --resource-group zerohunger-qa-rg --zone-name zerohunger.ai --record-set-name qa --cname zerohungerqastorage.z6.web.core.windows.net
+
