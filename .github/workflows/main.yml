@@ -10,11 +10,11 @@ jobs:
   build:
     uses: ./.github/workflows/build.yml
 
-  # infrastructure:
-  #   uses: ./.github/workflows/infrastructure.yml
-  #   secrets: inherit
+  infrastructure:
+    uses: ./.github/workflows/infrastructure.yml
+    secrets: inherit
     
   deploy:
-    needs: build
+    needs: [build, infrastructure]
     uses: ./.github/workflows/deploy.yml
     secrets: inherit

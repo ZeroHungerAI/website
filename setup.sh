@@ -8,7 +8,7 @@ if ! az account show > /dev/null 2>&1; then
     echo "Please log in to Azure:"
     az login
 fi
-
+az login # fix service principal login
 # Check if ENV is set
 if [ -z "$environment" ]; then
     echo "Enter your environment (subdomain) for $service:"
@@ -37,25 +37,30 @@ sp_credentials=$(echo $sp_credentials | jq --arg subscriptionId "$subscriptionId
 # Transform the credentials
 transformed_credentials=$(echo $sp_credentials | jq '{clientId: .appId, clientSecret: .password, tenantId: .tenant, subscriptionId: .subscriptionId}')
 
-# Now you can use transformed_credentials for Azure login
-# TODO: Check if bug 1 in setup.sh is fixed
-# Fix the transformation of credentials. The Azure login is failing because not all parameters are provided in 'creds'.
-# Check the transformation at line 27:
-# transformed_credentials=$(echo $sp_credentials | jq '{clientId: .appId, clientSecret: .password, tenantId: .tenant, subscriptionId: .subscriptionId}')
+echo $transformed_credentials
 
 # Set the transformed output as a GitHub secret
 echo $transformed_credentials | gh secret set AZURE_SERVICE_PRINCIPAL -e"$environment"
 gh secret set AZURE_SUBSCRIPTION_ID -b"$subscriptionId" -e"$environment"
 gh secret set AZURE_STORAGE_ACCOUNT_NAME -b"$storageAccountName" -e"$environment"
+gh secret set AZURE_RESOURCE_GROUP -b"$resourceGroupName" -e"$environment"
+gh secret set AZURE_LOCATION -b"$location" -e"$environment"
+#gh secret set AZURE_TENANT_ID -b"$tenantId" -e"$environment"
+#gh secret set AZURE_CLIENT_ID -b"$(echo $sp_credentials | jq -r '.appId')" -e"$environment"
+#gh secret set AZURE_CLIENT_SECRET -b"$(echo $sp_credentials | jq -r '.password')" -e"$environment"
+
 # Run az_dns_setup.sh
-./az_dns_setup.sh
+# chmod +x ./az_dns_setup.sh
+# ./az_dns_setup.sh
 
 # Azure login
-az login --service-principal -u $clientId -p $clientSecret --tenant $tenantId
+# user=$(echo $sp_credentials | jq -r '.appId')
+# password=$(echo $sp_credentials | jq -r '.password')
+# az login --service-principal -u "$user" -p "$password" --tenant "$tenantId"
 
-# Create storage account and setup for static website hosting
-az storage account create --name $storageAccountName --resource-group $resourceGroupName --location $location --sku Standard_LRS --auth-mode login
-az storage blob service-properties update --account-name $storageAccountName --static-website --404-document 404.html --index-document index.html --auth-mode login
+# # Create storage account and setup for static website hosting
+# az storage account create --name $storageAccountName --resource-group $resourceGroupName --location $location --sku Standard_LRS --auth-mode login
+# az storage blob service-properties update --account-name $storageAccountName --static-website --404-document 404.html --index-document index.html --auth-mode login
 
 # Create Key Vault
 #az keyvault create --name zerohungerqakeyvault --resource-group zerohunger-qa-rg --location eastus
