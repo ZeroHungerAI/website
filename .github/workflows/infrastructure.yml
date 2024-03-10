@@ -2,11 +2,15 @@
   name: 'Setup Storage Account and DNS for Website'
 
   on:
-    workflow_dispatch:
-      inputs:
-        environment:
-          description: 'Environment (qa or www)'
-          required: true
+    workflow_call: {}
+    workflow_dispatch: {}
+  
+  # on:
+  #   workflow_dispatch:
+  #     inputs:
+  #       environment:
+  #         description: 'Environment (qa or www)'
+  #         required: true
   
   jobs:
     Storage:
