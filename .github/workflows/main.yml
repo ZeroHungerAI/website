@@ -4,25 +4,23 @@ on:
   push:
     tags:
       - 'v[0-9]+.[0-9]+.[0-9]+'
-      - 'v*-rc[0-9]+'
+      - 'v[0-9]+.[0-9]+.[0-9]+-rc[0-9]+'
 
 jobs:
   build:
     uses: ./.github/workflows/build.yml
+    with:
+      environment: ${{ startsWith(github.ref_name, 'v') && contains(github.ref_name, '-rc') && 'qa' || 'www' }}
 
   infrastructure:
     uses: ./.github/workflows/infrastructure.yml
     with:
-      env:
-        AZURE_SERVICE_PRINCIPAL: ${{ secrets.AZURE_SERVICE_PRINCIPAL }}
-        AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-        AZURE_STORAGE_ACCOUNT_NAME: ${{ secrets.AZURE_STORAGE_ACCOUNT_NAME }}
-
+      environment: ${{ startsWith(github.ref_name, 'v') && contains(github.ref_name, '-rc') && 'qa' || 'www' }}
+    secrets: inherit
+    
   deploy:
     needs: build
     uses: ./.github/workflows/deploy.yml
     with:
-      env:
-        AZURE_SERVICE_PRINCIPAL: ${{ secrets.AZURE_SERVICE_PRINCIPAL }}
-        AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-        AZURE_STORAGE_ACCOUNT_NAME: ${{ secrets.AZURE_STORAGE_ACCOUNT_NAME }}
+      environment: ${{ startsWith(github.ref_name, 'v') && contains(github.ref_name, '-rc') && 'qa' || 'www' }}
+    secrets: inherit
