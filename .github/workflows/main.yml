@@ -1,18 +1,37 @@
----
-  name: 'build, release and deploy'
-  
-  on:
-    push:
-      tags:
-        - 'v[0-9]+.[0-9]+.[0-9]+'
-        - 'v*-rc[0-9]+'
-  
-  jobs:
-  
-    build:
-      uses: ./.github/workflows/build.yml
-    deploy:
-      needs: build
-      uses: ./.github/workflows/deploy.yml
-      secrets: inherit
-    
+name: 'build, release and deploy'
+
+on:
+  push:
+    tags:
+      - 'v[0-9]+.[0-9]+.[0-9]+'
+      - 'v*-rc[0-9]+'
+
+jobs:
+  pipeline:
+    strategy:
+      matrix:
+        environment: [qa, www]
+    runs-on: ubuntu-latest
+    environment: ${{ matrix.environment }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set environment based on tag
+        run: |
+          if [[ "${{ github.ref }}" == *"rc"* ]]; then
+            echo "ENVIRONMENT=qa" >> $GITHUB_ENV
+          else
+            echo "ENVIRONMENT=www" >> $GITHUB_ENV
+          fi
+
+      - name: Build
+        uses: ./.github/workflows/build.yml
+
+      - name: Infrastructure
+        uses: ./.github/workflows/infrastructure.yml
+        secrets: inherit
+
+      - name: Deploy
+        uses: ./.github/workflows/deploy.yml
+        secrets: inherit
