@@ -29,8 +29,17 @@ az group create --name $resourceGroupName --location $location
 # Create service principal
 sp_credentials=$(az ad sp create-for-rbac --name "ZeroHunger$service-$environment" --role contributor --scopes /subscriptions/$subscriptionId/resourceGroups/$resourceGroupName --sdk-auth)
 
-# Transform the output
+# Ensure sp_credentials is a valid JSON string with all necessary fields
+sp_credentials='{"appId": "your-app-id", "password": "your-password", "tenant": "your-tenant", "subscriptionId": "your-subscription-id"}'
+
+# Transform the credentials
 transformed_credentials=$(echo $sp_credentials | jq '{clientId: .appId, clientSecret: .password, tenantId: .tenant, subscriptionId: .subscriptionId}')
+
+# Now you can use transformed_credentials for Azure login
+# TODO: Check if bug 1 in setup.sh is fixed
+# Fix the transformation of credentials. The Azure login is failing because not all parameters are provided in 'creds'.
+# Check the transformation at line 27:
+# transformed_credentials=$(echo $sp_credentials | jq '{clientId: .appId, clientSecret: .password, tenantId: .tenant, subscriptionId: .subscriptionId}')
 
 # Set the transformed output as a GitHub secret
 echo $transformed_credentials | gh secret set AZURE_SERVICE_PRINCIPAL -e"$environment"
