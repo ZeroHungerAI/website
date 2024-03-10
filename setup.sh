@@ -1,6 +1,8 @@
 #!/bin/bash
 service="website"
 
+#set -x
+
 # Check if already logged in
 if ! az account show > /dev/null 2>&1; then
     echo "Please log in to Azure:"
@@ -27,10 +29,10 @@ echo "storageAccountName: $storageAccountName"
 az group create --name $resourceGroupName --location $location
 
 # Create service principal
-sp_credentials=$(az ad sp create-for-rbac --name "ZeroHunger$service-$environment" --role contributor --scopes /subscriptions/$subscriptionId/resourceGroups/$resourceGroupName --sdk-auth)
+sp_credentials=$(az ad sp create-for-rbac --name "ZeroHunger$service-$environment" --role contributor --scopes /subscriptions/$subscriptionId/resourceGroups/$resourceGroupName)
 
 # Ensure sp_credentials is a valid JSON string with all necessary fields
-sp_credentials='{"appId": "your-app-id", "password": "your-password", "tenant": "your-tenant", "subscriptionId": "your-subscription-id"}'
+#sp_credentials='{"appId": "your-app-id", "password": "your-password", "tenant": "your-tenant", "subscriptionId": "your-subscription-id"}'
 
 # Transform the credentials
 transformed_credentials=$(echo $sp_credentials | jq '{clientId: .appId, clientSecret: .password, tenantId: .tenant, subscriptionId: .subscriptionId}')
@@ -40,10 +42,18 @@ transformed_credentials=$(echo $sp_credentials | jq '{clientId: .appId, clientSe
 # Fix the transformation of credentials. The Azure login is failing because not all parameters are provided in 'creds'.
 # Check the transformation at line 27:
 # transformed_credentials=$(echo $sp_credentials | jq '{clientId: .appId, clientSecret: .password, tenantId: .tenant, subscriptionId: .subscriptionId}')
-
+set -x
 # Set the transformed output as a GitHub secret
 echo $transformed_credentials | gh secret set AZURE_SERVICE_PRINCIPAL -e"$environment"
 gh secret set AZURE_SUBSCRIPTION_ID -b"$subscriptionId" -e"$environment"
 gh secret set AZURE_STORAGE_ACCOUNT_NAME -b"$storageAccountName" -e"$environment"
 # Run az_dns_setup.sh
 ./az_dns_setup.sh
+
+# DEBUG ECHO STATEMENTS
+echo "sp_credentials: $sp_credentials"
+echo "transformed_credentials: $transformed_credentials"
+echo "subscriptionId: $subscriptionId"
+echo "storageAccountName: $storageAccountName"
+echo "resourceGroupName: $resourceGroupName"
+echo "environment: $environment"
