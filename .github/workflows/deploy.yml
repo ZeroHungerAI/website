@@ -22,10 +22,10 @@
           pwd
           ls -la
 
-#      - name: Azure login
-#        uses: azure/login@v1
-#        with:
-#          creds: ${{ secrets.AZURE_SERVICE_PRINCIPAL }}
+     - name: Azure login
+       uses: azure/login@v1
+       with:
+         creds: ${{ secrets.AZURE_SERVICE_PRINCIPAL }}
 
       - name: Deploy to Azure Storage Account
         uses: azure/CLI@v1
@@ -33,6 +33,6 @@
           azcliversion: 2.0.72
           inlineScript: |
             az storage blob upload-batch --account-name ${{ secrets.AZURE_STORAGE_ACCOUNT_NAME }} --source ./public --destination '$web'
-        env:
-          AZURE_STORAGE_ACCOUNT_NAME: ${{ secrets.AZURE_STORAGE_ACCOUNT_NAME }}
-          AZURE_STORAGE_ACCOUNT_KEY: ${{ secrets.AZURE_STORAGE_ACCOUNT_KEY }}
+        # env:
+        #   AZURE_STORAGE_ACCOUNT_NAME: ${{ secrets.AZURE_STORAGE_ACCOUNT_NAME }}
+        #   AZURE_STORAGE_ACCOUNT_KEY: ${{ secrets.AZURE_STORAGE_ACCOUNT_KEY }}
