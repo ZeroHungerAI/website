@@ -31,8 +31,8 @@
       - name: Deploy to Azure Storage Account
         uses: azure/CLI@v1
         with:
-          azcliversion: 2.0.72
+          #azcliversion: 2.0.72
+          #az account set --subscription ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+          #az account show
           inlineScript: |
-            az account show
-            az account set --subscription ${{ secrets.AZURE_SUBSCRIPTION_ID }}
             az storage blob upload-batch --account-name ${{ secrets.AZURE_STORAGE_ACCOUNT_NAME }} --source ./public --destination '$web'
