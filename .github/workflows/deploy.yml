@@ -1,32 +1,38 @@
-
 ---
-  name: 'Deploy Docker Containers'
+  name: 'Deploy to Azure Storage Account'
 
   on:
-    workflow_call:
-    workflow_dispatch:
+    workflow_call: {}
+    workflow_dispatch: {}
 
   jobs:
     deploy:
       runs-on: ubuntu-latest
+      environment: ${{ startsWith(github.ref_name, 'v') && contains(github.ref_name, '-rc') && 'qa' || 'www' }}
       steps:
       - uses: actions/checkout@v2
-
-      - name: Install SSH key
-        uses: shimataro/ssh-key-action@v2
+        
+      - name: Download built website
+        uses: actions/download-artifact@v2
         with:
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          known_hosts: ${{ vars.SSH_FINGERPRINT }}
+          name: public
+          path: ./public
 
-      - name: Create docker context
-        run: docker context create prod --docker "host=ssh://${{ vars.REMOTE_USER }}@${{ vars.REMOTE_HOST }}"
-
-      - name: Workaround prune www container
+      - name: List directory contents
         run: |
-          docker-compose --context prod -f docker-compose.yml down --rmi local
+          pwd
+          ls -la
+          
+      - name: Azure login
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_SERVICE_PRINCIPAL }}
 
-      - name: Deploy Docker Containers
-        run: |
-          docker-compose --context prod -f docker-compose.yml up --build --force-recreate --remove-orphans -d
-        env:
-          HUGO_ENV: production
+      - name: Deploy to Azure Storage Account
+        uses: azure/CLI@v1
+        with:
+          #azcliversion: 2.0.72
+          #az account set --subscription ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+          #az account show
+          inlineScript: |
+            az storage blob upload-batch --account-name ${{ secrets.AZURE_STORAGE_ACCOUNT_NAME }} --source ./public --destination '$web'

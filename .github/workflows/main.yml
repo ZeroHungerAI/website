@@ -1,15 +1,20 @@
----
-  name: 'build, release and deploy'
-  
-  on:
-    push:
-      tags:
-        - 'v[0-9]+.[0-9]+.[0-9]+'
-        - 'v*-rc[0-9]+'
-  
-  jobs:
-  
-    deploy:
-      uses: ./.github/workflows/deploy.yml
-      secrets: inherit
+name: 'build, release and deploy'
+
+on:
+  push:
+    tags:
+      - 'v[0-9]+.[0-9]+.[0-9]+'
+      - 'v[0-9]+.[0-9]+.[0-9]+-rc[0-9]+'
+
+jobs:
+  build:
+    uses: ./.github/workflows/build.yml
+
+  infrastructure:
+    uses: ./.github/workflows/infrastructure.yml
+    secrets: inherit
     
+  deploy:
+    needs: [build, infrastructure]
+    uses: ./.github/workflows/deploy.yml
+    secrets: inherit
