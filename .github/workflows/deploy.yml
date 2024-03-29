@@ -21,7 +21,7 @@
       - name: List directory contents
         run: |
           pwd
-          ls -la
+          ls -la *
           
       - name: Azure login
         uses: azure/login@v1
@@ -31,8 +31,5 @@
       - name: Deploy to Azure Storage Account
         uses: azure/CLI@v1
         with:
-          #azcliversion: 2.0.72
-          #az account set --subscription ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-          #az account show
           inlineScript: |
-            az storage blob upload-batch --account-name ${{ secrets.AZURE_STORAGE_ACCOUNT_NAME }} --source ./public --destination '$web'
+            az storage blob upload-batch --overwrite true --account-name ${{ secrets.AZURE_STORAGE_ACCOUNT_NAME }} --source ./public --destination '$web'
