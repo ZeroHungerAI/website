@@ -5,7 +5,7 @@ featured_image: '../images/contact.jpg'
 description: Volunteers wanted!
 type: page
 menu: main
-weight: 2
+weight: 6
 
 ---
 

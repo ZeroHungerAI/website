@@ -1,5 +1,27 @@
-# zerohunger
+# www.zerohunger.ai
+
 ZeroHunger.ai Website
+
+![[Pasted image 20240328172338.png]]
+
+## Change the website
+
+The website is deployed via GitHub Actions to the Azure rg-website-qa-westeurope.
+
+TODOs: 
+
+- [ ] prod deployment
+- [ ] Tests?
+- [ ] DNS
+- [ ] Ops Manual
+
+
+### How to change the website
+
+1. make changes
+2. commit all
+3. tag
+4. push with tags
 
 ## requirements
 
@@ -8,7 +30,7 @@ Built with gohugo.io
 ```
 brew install hugo
 ```
-## how to set up
+## setup local development environment
 
 ```
 git clone git@github.com:mmatiaschek/zerohunger.git
