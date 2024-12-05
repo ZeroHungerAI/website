@@ -15,14 +15,29 @@ jobs:
         with:
           creds: ${{ secrets.AZURE_SERVICE_PRINCIPAL }}
 
+      - name: Debug environment
+        run: |
+          echo "Environment: ${{ github.event.environment || (startsWith(github.ref_name, 'v') && contains(github.ref_name, '-rc') && 'qa' || 'prod') }}"
+          echo "Storage Account: ${{ secrets.AZURE_STORAGE_ACCOUNT_NAME }}"
+          echo "Resource Group: ${{ secrets.AZURE_RESOURCE_GROUP }}"
+
       - name: Verify storage account
         run: |
-          if ! az storage account show --name ${{ secrets.AZURE_STORAGE_ACCOUNT_NAME }} --resource-group ${{ secrets.AZURE_RESOURCE_GROUP }} &>/dev/null; then
+          echo "Verifying storage account exists..."
+          if ! az storage account show \
+            --name "${{ secrets.AZURE_STORAGE_ACCOUNT_NAME }}" \
+            --resource-group "${{ secrets.AZURE_RESOURCE_GROUP }}" \
+            --output none; then
             echo "Storage account ${{ secrets.AZURE_STORAGE_ACCOUNT_NAME }} does not exist"
             exit 1
           fi
           
-          if ! az storage blob service-properties show --account-name ${{ secrets.AZURE_STORAGE_ACCOUNT_NAME }} --query "staticWebsite.enabled" -o tsv | grep -q "true"; then
+          echo "Verifying static website hosting is enabled..."
+          if ! az storage blob service-properties show \
+            --account-name "${{ secrets.AZURE_STORAGE_ACCOUNT_NAME }}" \
+            --auth-mode login \
+            --query "staticWebsite.enabled" \
+            -o tsv | grep -q "true"; then
             echo "Static website hosting not enabled on ${{ secrets.AZURE_STORAGE_ACCOUNT_NAME }}"
             exit 1
           fi
