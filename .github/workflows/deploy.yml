@@ -1,28 +1,23 @@
 ---
-  name: 'Deploy to Azure Storage Account'
+name: 'Deploy to Azure Storage Account'
 
-  on:
-    workflow_call: {}
-    workflow_dispatch: {}
+on:
+  workflow_call: {}
+  workflow_dispatch: {}
 
-  jobs:
-    deploy:
-      runs-on: ubuntu-latest
-      environment: ${{ startsWith(github.ref_name, 'v') && contains(github.ref_name, '-rc') && 'qa' || 'www' }}
-      steps:
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: ${{ startsWith(github.ref_name, 'v') && contains(github.ref_name, '-rc') && 'qa' || 'prod' }}
+    steps:
       - uses: actions/checkout@v2
         
       - name: Download built website
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: public
           path: ./public
 
-      - name: List directory contents
-        run: |
-          pwd
-          ls -la
-          
       - name: Azure login
         uses: azure/login@v1
         with:
@@ -31,8 +26,11 @@
       - name: Deploy to Azure Storage Account
         uses: azure/CLI@v1
         with:
-          #azcliversion: 2.0.72
-          #az account set --subscription ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-          #az account show
+          azcliversion: latest
           inlineScript: |
-            az storage blob upload-batch --account-name ${{ secrets.AZURE_STORAGE_ACCOUNT_NAME }} --source ./public --destination '$web'
+            az storage blob upload-batch \
+              --account-name ${{ secrets.AZURE_STORAGE_ACCOUNT_NAME }} \
+              --source ./public \
+              --destination '$web' \
+              --overwrite true \
+              --auth-mode login
