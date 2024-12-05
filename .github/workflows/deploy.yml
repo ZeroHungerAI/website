@@ -24,17 +24,21 @@ jobs:
           creds: ${{ secrets.AZURE_SERVICE_PRINCIPAL }}
 
       - name: Deploy to Azure Storage Account
-        run: |
-          az storage blob upload-batch \
-            --account-name ${{ secrets.AZURE_STORAGE_ACCOUNT_NAME }} \
-            --source ./public \
-            --destination '$web' \
-            --overwrite true \
-            --auth-mode login
+        uses: azure/CLI@v1
+        with:
+          azcliversion: latest
+          inlineScript: |
+            az storage blob upload-batch \
+              --account-name ${{ secrets.AZURE_STORAGE_ACCOUNT_NAME }} \
+              --source ./public \
+              --destination '$web' \
+              --overwrite true \
+              --auth-mode login
 
       - name: Purge CDN endpoint
         uses: azure/CLI@v1
         with:
+          azcliversion: latest
           inlineScript: |
             az cdn endpoint purge \
               --content-paths "/*" \
