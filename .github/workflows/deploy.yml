@@ -44,4 +44,4 @@ jobs:
               --content-paths "/*" \
               --profile-name ${{ secrets.AZURE_CDN_PROFILE }} \
               --name ${{ secrets.AZURE_CDN_ENDPOINT }} \
-              --resource-group ${{ secrets.AZURE_RESOURCE_GROUP }}
+              --resource-group ${{ secrets.AZURE_CDN_RESOURCE_GROUP }}
