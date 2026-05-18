@@ -60,18 +60,26 @@
       </div>
     </article>
 
-    {{/* Ethiopia placeholder card */}}
-    <article style="border:2px dashed var(--zh-border);border-radius:var(--zh-radius-2);display:flex;flex-direction:column;background:var(--zh-bg-muted)">
-      <div style="height:200px;display:flex;align-items:center;justify-content:center;background:var(--zh-light-gray)">
-        <span style="font-size:3rem">🇪🇹</span>
-      </div>
+    {{/* Ethiopia card */}}
+    {{ $ethiopiaImg := resources.Get "images/projects/ethiopia/IMG_20230622_100346.jpg" }}
+    <article style="border:1px solid var(--zh-border);border-radius:var(--zh-radius-2);overflow:hidden;display:flex;flex-direction:column">
+      {{ if $ethiopiaImg }}
+      {{ $thumb := $ethiopiaImg.Resize "600x300 webp" }}
+      {{ $thumbFallback := $ethiopiaImg.Resize "600x300 jpg" }}
+      <picture>
+        <source srcset="{{ $thumb.RelPermalink }}" type="image/webp">
+        <img src="{{ $thumbFallback.RelPermalink }}" alt="Ethiopian tech professionals in a workshop session"
+             loading="lazy" width="600" height="300"
+             style="width:100%;height:200px;object-fit:cover;display:block">
+      </picture>
+      {{ end }}
       <div style="padding:var(--zh-space-3);display:flex;flex-direction:column;flex:1">
-        <p class="zh-eyebrow" style="margin:0 0 0.5rem">Ethiopia — Coming Soon</p>
-        <h3 style="margin:0 0 var(--zh-space-2)">Agricultural Impact Platform</h3>
+        <p class="zh-eyebrow" style="margin:0 0 0.5rem">🇪🇹 Ethiopia</p>
+        <h3 style="margin:0 0 var(--zh-space-2)">Tech SME Acceleration Programme</h3>
         <p style="font-size:var(--zh-fs-f5);color:var(--zh-fg-muted);flex:1;margin:0 0 var(--zh-space-3)">
-          Our next project — leveraging technology to improve food security and smallholder farmer outcomes in Ethiopia. Details coming soon.
+          Helping 10+ Ethiopian software companies sharpen their products and fix their processes across three field visits to Addis Ababa, 2023–2024.
         </p>
-        <span class="zh-btn zh-btn--ghost" style="align-self:flex-start;opacity:0.5;cursor:default">Coming soon</span>
+        <a class="zh-btn zh-btn--ghost" href="/projects/ethiopia/" style="align-self:flex-start">Read the story →</a>
       </div>
     </article>
 

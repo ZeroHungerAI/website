@@ -3,22 +3,13 @@ title: "Accelerating Ethiopia's Tech Ecosystem: How We Helped 10 Software SMEs B
 country: Ethiopia
 client: "sequa gGmbH"
 year: "2023–2024"
-featured_image: "IMG_20230622_100346.jpg"
+featured_image: "images/projects/ethiopia/IMG_20230622_100346.jpg"
 description: "How ZeroHunger.ai supported Ethiopian tech startups through strategy consulting, product ownership training, and software development process improvement across three field visits to Addis Ababa."
 stats:
   - { label: "Tech SMEs supported", value: "10+" }
   - { label: "Field visits", value: "3" }
   - { label: "Duration", value: "2023–2024" }
   - { label: "Focus areas", value: "Strategy, Product, Process" }
-photos:
-  - { file: "IMG_20230622_100346.jpg", alt: "Ethiopian tech professionals working during a workshop session in Addis Ababa" }
-  - { file: "IMG_20230619_123542.jpg", alt: "Digitalizing Ethiopia banner showing Eaglelion and partner company logos at the sequa coworking hub" }
-  - { file: "IMG_20240523_124517.jpg", alt: "Product roadmap whiteboard session during May 2024 field visit" }
-  - { file: "IMG_20230619_124505.jpg", alt: "Consultants meeting with Ethiopian tech company leadership in their office" }
-  - { file: "IMG_20230622_100339.jpg", alt: "Workshop room with Miro board projected for collaborative strategy session" }
-  - { file: "IMG_20230307_131403.jpg", alt: "ZeroHunger.ai team sharing a meal with Ethiopian tech professionals in Addis Ababa" }
-  - { file: "IMG_20240520_122938.jpg", alt: "Handcrafted leather goods at Kabana Design, one of the supported businesses" }
-  - { file: "IMG_20230620_185642.jpg", alt: "Team dinner with sequa partners and Ethiopian startup founders" }
 ---
 
 Between March 2023 and May 2024, ZeroHunger.ai sent a team of consultants to Addis Ababa three times to work with Ethiopian software companies. The mission: help a cohort of tech SMEs sharpen their products, fix their processes, and build businesses that could survive and grow in one of Africa's most dynamic — and most challenging — startup environments.
@@ -85,6 +76,10 @@ The cohort represented a cross-section of Ethiopia's tech sector:
 | Momona | Digital services | Assessment |
 
 Each company received a tailored mix of support based on where they were in their journey. For some, the most valuable thing we could do was help them decide what *not* to build. For others, it was introducing a structured development process where none had existed.
+
+## Photos from the Field
+
+{{< photo-gallery dir="images/projects/ethiopia" caption="Three field visits to Addis Ababa, 2023–2024" >}}
 
 ## The Ecosystem: Why the sequa Model Works
 
