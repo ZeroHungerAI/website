@@ -1,0 +1,8 @@
+{{ define "main" }}
+<script>window.location.replace("{{ .Params.redirect_url }}");</script>
+<noscript>
+  <p style="text-align:center;padding:4rem 1rem">
+    Redirecting… <a href="{{ .Params.redirect_url }}">click here if you are not redirected automatically</a>
+  </p>
+</noscript>
+{{ end }}

@@ -1,6 +1,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ .Title }} — {{ .Site.Title }}{{ end }}</title>
+{{ if eq .Type "redirect" }}<meta http-equiv="refresh" content="0; url={{ .Params.redirect_url }}">{{ end }}
 <meta name="description" content="{{ with .Description }}{{ . }}{{ else }}{{ .Site.Params.description }}{{ end }}">
 {{ with .Site.Params.googleAnalytics }}<meta name="google-site-verification" content="">
 
