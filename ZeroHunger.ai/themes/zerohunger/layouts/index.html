@@ -22,7 +22,7 @@
     <h1>{{ .Title }}</h1>
     {{ with .Description }}<p class="dek">{{ . }}</p>{{ end }}
     <div style="margin-top:2rem;display:flex;gap:1rem;justify-content:center;flex-wrap:wrap">
-      <a href="#contact" class="zh-btn zh-btn--primary">Start Your Project</a>
+      <a href="#contact" class="zh-btn zh-btn--primary">Book a Meeting</a>
       <a href="/projects/" class="zh-btn zh-btn--ghost" style="color:#fff;border-color:#fff">Our Projects</a>
     </div>
   </div>
@@ -96,33 +96,11 @@
 {{/* ── CONTACT ──────────────────────────────────────────────────────── */}}
 <section id="contact" class="zh-section zh-container" aria-labelledby="contact-heading">
   <div class="zh-prose zh-prose--center" style="margin-bottom:var(--zh-space-4)">
-    <h2 id="contact-heading">What's Your Challenge?</h2>
-    <p>Use the form below to tell us how software or AI can help you or the people you work with. Or, book a meeting now to turn your idea into a product in the next development cycle.</p>
+    <h2 id="contact-heading">Book a Meeting</h2>
+    <p>Pick a time that works for you and tell us about your challenge. We will get back to you with a concrete proposal for the next development cycle.</p>
   </div>
 
-  <div style="max-width:36rem;margin:0 auto">
-    <form class="zh-form" accept-charset="UTF-8" action="https://fabform.io/f/-xMvsgp" method="POST" role="form">
-      <div class="zh-field">
-        <label class="zh-label" for="name">Name <span class="req" aria-hidden="true">*</span></label>
-        <input class="zh-input" type="text" id="name" name="name" required placeholder="Your name" aria-required="true">
-      </div>
-      <div class="zh-field">
-        <label class="zh-label" for="email">Email address <span class="req" aria-hidden="true">*</span></label>
-        <input class="zh-input" type="email" id="email" name="email" required placeholder="you@example.com" aria-required="true">
-      </div>
-      <div class="zh-field">
-        <label class="zh-label" for="message">Message</label>
-        <textarea class="zh-textarea" id="message" name="message" placeholder="Tell us about your challenge…"></textarea>
-      </div>
-      <button class="zh-btn zh-btn--primary" type="submit">Send message</button>
-    </form>
-  </div>
-
-  <div class="zh-section--tight" style="text-align:center">
-    <p class="zh-or">OR</p>
-  </div>
-
-  <div id="zh-booking-wrap" style="max-width:900px;margin:0 auto;min-height:200px">
+  <div id="zh-booking-wrap" style="max-width:900px;margin:0 auto;min-height:400px">
     <div id="zh-booking-placeholder" style="text-align:center;padding:3rem 1rem;border:1px solid var(--zh-border);border-radius:var(--zh-radius-2)">
       <p style="margin:0 0 1rem;font-size:var(--zh-fs-f5);color:var(--zh-fg-muted)">Book a 30-minute meeting with us</p>
       <button onclick="zhLoadBooking()" class="zh-btn zh-btn--primary">Open booking calendar</button>
@@ -134,7 +112,22 @@
   function zhLoadBooking() {
     var wrap = document.getElementById('zh-booking-wrap');
     wrap.innerHTML = '<iframe src="https://outlook.office365.com/owa/calendar/Bookameeting@zerohunger.ai/bookings/" width="100%" height="700" scrolling="yes" title="Book a meeting" style="border:0;border-radius:var(--zh-radius-2);display:block"></iframe>';
+    wrap.style.minHeight = '700px';
   }
+  // Auto-load the booking calendar when the section scrolls into view
+  (function () {
+    var loaded = false;
+    var section = document.getElementById('contact');
+    if (!section || !('IntersectionObserver' in window)) return;
+    var observer = new IntersectionObserver(function (entries) {
+      if (!loaded && entries[0].isIntersecting) {
+        loaded = true;
+        zhLoadBooking();
+        observer.disconnect();
+      }
+    }, { threshold: 0.1 });
+    observer.observe(section);
+  })();
 </script>
 
 {{ end }}
