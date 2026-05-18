@@ -122,13 +122,19 @@
     <p class="zh-or">OR</p>
   </div>
 
-  <div style="max-width:900px;margin:0 auto">
-    <iframe src='https://outlook.office365.com/owa/calendar/Bookameeting@zerohunger.ai/bookings/'
-            width='100%' height='700' scrolling='yes'
-            title="Book a meeting"
-            style='border:0;border-radius:var(--zh-radius-2)'
-            loading="lazy"></iframe>
+  <div id="zh-booking-wrap" style="max-width:900px;margin:0 auto;min-height:200px">
+    <div id="zh-booking-placeholder" style="text-align:center;padding:3rem 1rem;border:1px solid var(--zh-border);border-radius:var(--zh-radius-2)">
+      <p style="margin:0 0 1rem;font-size:var(--zh-fs-f5);color:var(--zh-fg-muted)">Book a 30-minute meeting with us</p>
+      <button onclick="zhLoadBooking()" class="zh-btn zh-btn--primary">Open booking calendar</button>
+    </div>
   </div>
 </section>
+
+<script>
+  function zhLoadBooking() {
+    var wrap = document.getElementById('zh-booking-wrap');
+    wrap.innerHTML = '<iframe src="https://outlook.office365.com/owa/calendar/Bookameeting@zerohunger.ai/bookings/" width="100%" height="700" scrolling="yes" title="Book a meeting" style="border:0;border-radius:var(--zh-radius-2);display:block"></iframe>';
+  }
+</script>
 
 {{ end }}
