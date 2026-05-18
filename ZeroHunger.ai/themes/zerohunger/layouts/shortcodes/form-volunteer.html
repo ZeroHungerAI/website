@@ -1,0 +1,144 @@
+<div class="zh-volunteer-form-wrap">
+  <form id="zh-volunteer-form" class="zh-form" novalidate>
+    <h2 style="margin-top:0">I want to disrupt poverty and hunger with AI and Software:</h2>
+
+    <div class="zh-field">
+      <label class="zh-label" for="vol-fname">First Name <span class="req" aria-hidden="true">*</span></label>
+      <input class="zh-input" type="text" id="vol-fname" name="FIRSTNAME" required placeholder="Your first name" aria-required="true">
+    </div>
+
+    <div class="zh-field">
+      <label class="zh-label" for="vol-lname">Last Name <span class="req" aria-hidden="true">*</span></label>
+      <input class="zh-input" type="text" id="vol-lname" name="LASTNAME" required placeholder="Your last name" aria-required="true">
+    </div>
+
+    <div class="zh-field">
+      <label class="zh-label" for="vol-email">Email Address <span class="req" aria-hidden="true">*</span></label>
+      <input class="zh-input" type="email" id="vol-email" name="EMAIL" required placeholder="you@example.com" aria-required="true">
+    </div>
+
+    <div class="zh-field">
+      <label class="zh-label" for="vol-role">Your Role <span class="req" aria-hidden="true">*</span></label>
+      <input class="zh-input" type="text" id="vol-role" name="JOB_TITLE" required placeholder="Project Manager, Software Engineer, Data Scientist, …" aria-required="true">
+    </div>
+
+    <div class="zh-field">
+      <label class="zh-label" for="vol-linkedin">LinkedIn Profile or CV Link <span class="req" aria-hidden="true">*</span></label>
+      <input class="zh-input" type="url" id="vol-linkedin" name="LINKEDIN" required placeholder="https://www.linkedin.com/in/yourprofile/" aria-required="true">
+    </div>
+
+    <div class="zh-field">
+      <label class="zh-label" for="vol-github">GitHub Profile</label>
+      <input class="zh-input" type="url" id="vol-github" name="GITHUB" placeholder="https://github.com/yourhandle">
+    </div>
+
+    <div class="zh-field" style="flex-direction:row;align-items:flex-start;gap:0.75rem">
+      <input type="checkbox" id="vol-gdpr" name="gdpr" required aria-required="true"
+             style="margin-top:0.25rem;flex-shrink:0;width:auto">
+      <label for="vol-gdpr" style="font-size:var(--zh-fs-f5);color:var(--zh-fg-muted);font-weight:400;cursor:pointer">
+        I agree to receive communications from ZeroHunger.ai about volunteering opportunities.
+        I understand I can unsubscribe at any time.
+        See our <a href="/privacy">Privacy Policy</a> for details.
+        <span class="req" aria-hidden="true">*</span>
+      </label>
+    </div>
+
+    <div id="zh-vol-msg" role="alert" aria-live="polite" style="display:none;padding:1rem;border-radius:var(--zh-radius-1);margin-bottom:1rem;font-size:var(--zh-fs-f5)"></div>
+
+    <button class="zh-btn zh-btn--primary" type="submit" id="zh-vol-submit">Apply to volunteer</button>
+    <p style="font-size:var(--zh-fs-f6);color:var(--zh-fg-muted);margin-top:0.75rem">
+      You will receive a confirmation email — please click the link in it to complete your application.
+    </p>
+  </form>
+</div>
+
+<script>
+(function () {
+  var BREVO_API_KEY = "{{ if .Site.Params.brevoApiKey }}{{ .Site.Params.brevoApiKey }}{{ else }}{{ os.Getenv "BREVO_API_KEY" }}{{ end }}";
+  var BREVO_LIST_ID = 13;
+  var BREVO_DOI_TEMPLATE_ID = 2;
+  var REDIRECT_URL = "{{ .Site.BaseURL }}thanks/";
+
+  var form = document.getElementById("zh-volunteer-form");
+  var msgEl = document.getElementById("zh-vol-msg");
+  var submitBtn = document.getElementById("zh-vol-submit");
+
+  if (!form) return;
+
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+
+    var email = form.EMAIL.value.trim();
+    var firstname = form.FIRSTNAME.value.trim();
+    var lastname = form.LASTNAME.value.trim();
+    var role = form.JOB_TITLE.value.trim();
+    var linkedin = form.LINKEDIN.value.trim();
+    var github = form.GITHUB ? form.GITHUB.value.trim() : "";
+    var gdpr = form.gdpr.checked;
+
+    if (!gdpr) {
+      showMsg("Please accept the data protection checkbox to proceed.", "error");
+      return;
+    }
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = "Sending…";
+    hideMsg();
+
+    var payload = {
+      email: email,
+      includeListIds: [BREVO_LIST_ID],
+      templateId: BREVO_DOI_TEMPLATE_ID,
+      redirectionUrl: REDIRECT_URL,
+      attributes: {
+        FIRSTNAME: firstname,
+        LASTNAME: lastname,
+        JOB_TITLE: role,
+        LINKEDIN: linkedin
+      }
+    };
+    if (github) payload.attributes.GITHUB = github;
+
+    fetch("https://api.brevo.com/v3/contacts/doubleOptinConfirmation", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "api-key": BREVO_API_KEY
+      },
+      body: JSON.stringify(payload)
+    })
+      .then(function (res) {
+        if (res.status === 204 || res.status === 200 || res.status === 201) {
+          showMsg(
+            "Thank you! Please check your inbox for a confirmation email and click the link to complete your application.",
+            "success"
+          );
+          form.reset();
+        } else {
+          return res.json().then(function (data) {
+            throw new Error(data.message || "Submission failed. Please try again.");
+          });
+        }
+      })
+      .catch(function (err) {
+        showMsg(err.message || "Something went wrong. Please email us at contact@zerohunger.ai.", "error");
+      })
+      .finally(function () {
+        submitBtn.disabled = false;
+        submitBtn.textContent = "Apply to volunteer";
+      });
+  });
+
+  function showMsg(text, type) {
+    msgEl.textContent = text;
+    msgEl.style.display = "block";
+    msgEl.style.background = type === "success" ? "var(--zh-success-bg, #d4edda)" : "var(--zh-error-bg, #f8d7da)";
+    msgEl.style.color = type === "success" ? "var(--zh-success-fg, #155724)" : "var(--zh-error-fg, #721c24)";
+    msgEl.style.border = type === "success" ? "1px solid #c3e6cb" : "1px solid #f5c6cb";
+  }
+
+  function hideMsg() {
+    msgEl.style.display = "none";
+  }
+})();
+</script>

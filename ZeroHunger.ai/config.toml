@@ -13,7 +13,7 @@ enableRobotsTXT = true
 # Required for Hugo image processing in shortcodes
 [security]
   [security.funcs]
-    getenv = ["^HUGO_", "^CI$"]
+    getenv = ["^HUGO_", "^CI$", "^BREVO_"]
 
 [languages]
   [languages.en]
@@ -28,6 +28,8 @@ enableRobotsTXT = true
 
 [params]
   description = "A non-profit software & consulting business to accelerate your Impact!"
+  # Set HUGO_PARAMS_BREVOAPIKEY build env var in Azure to avoid committing the key
+  brevoApiKey = ""
 
 [[params.ananke_socials]]
   name = "github"
