@@ -1,6 +1,6 @@
 ---
 title: Workshops
-featured_image: '../images/workshop.jpg'
+featured_image: '/images/workshop.jpg'
 omit_header_text: true
 description: "Hands-on workshop formats for AI strategy, digital capacity building, and organizational development — proven across engagements in Africa, Latin America, and Europe."
 type: page
