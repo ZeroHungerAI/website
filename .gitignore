@@ -2,3 +2,6 @@ ZeroHunger.ai/public
 _gen
 .hugo_build.lock
 .DS_Store
+node_modules/
+tests/test-results/
+tests/playwright-report/
