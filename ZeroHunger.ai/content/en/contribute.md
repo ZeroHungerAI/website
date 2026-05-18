@@ -1,6 +1,6 @@
 ---
 title: Contribute
-featured_image: '../images/contact.jpg'
+featured_image: '/images/honduras-team.jpg'
 #omit_header_text: true
 description: Volunteers wanted!
 type: page
