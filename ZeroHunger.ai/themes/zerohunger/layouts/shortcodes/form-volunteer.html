@@ -3,6 +3,7 @@
     id="zh-volunteer-form"
     class="zh-form"
     method="POST"
+    target="zh-brevo-sink"
     action="https://a01eef16.sibforms.com/serve/MUIFAAIEVSxlyLWOQgQZjX83TMe_x0tFjJec9q17vYKWuN7nLUqWRjWLRSCsPFqBXzm9hZg5eIkhhyQoTiR4o-LBaSI6E6tJ4jrJYRyRfw8Kh4kBvp9uPgSsGt1ZgCC2_hxxy8Sg3YC5NcweWcP-WtegX06eDNMYzLVnaekJxxTAdDE_0JqzAorrGdsqmE3HvTHrUGe1FsmxCtCTNA=="
     novalidate>
 
@@ -27,8 +28,34 @@
     <input type="hidden" name="locale" value="en">
 
   </form>
-  <p style="font-size:var(--zh-fs-f6);color:var(--zh-fg-muted);margin-top:0.75rem">
+
+  {{/* Hidden iframe absorbs the Brevo POST response so the user stays on this page */}}
+  <iframe name="zh-brevo-sink" style="display:none" title="form submission" aria-hidden="true" tabindex="-1"></iframe>
+
+  <p id="zh-volunteer-thanks" style="display:none;font-size:var(--zh-fs-f5);color:var(--zh-fg-muted);margin-top:0.75rem">
+    Thanks! Check your inbox to confirm your subscription.
+  </p>
+
+  <p id="zh-volunteer-footer" style="font-size:var(--zh-fs-f6);color:var(--zh-fg-muted);margin-top:0.75rem">
     Share your email and we will reach out. No spam — unsubscribe any time.
     See our <a href="/privacy">Privacy Policy</a>.
   </p>
+
+  <script>
+  (function () {
+    var form = document.getElementById('zh-volunteer-form');
+    var sink = document.querySelector('[name="zh-brevo-sink"]');
+    var submitted = false;
+    form.addEventListener('submit', function () {
+      if (!form.checkValidity()) return;
+      submitted = true;
+    });
+    sink.addEventListener('load', function () {
+      if (!submitted) return;
+      form.style.display = 'none';
+      document.getElementById('zh-volunteer-footer').style.display = 'none';
+      document.getElementById('zh-volunteer-thanks').style.display = 'block';
+    });
+  })();
+  </script>
 </div>
