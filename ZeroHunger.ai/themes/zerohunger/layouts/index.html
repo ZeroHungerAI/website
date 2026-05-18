@@ -1,14 +1,20 @@
 {{ define "main" }}
 
 {{/* ── HERO ─────────────────────────────────────────────────────────── */}}
+{{/* Static fallback always available; Hugo pipeline enhances with WebP if possible */}}
+{{ $heroBg := "/images/hero-tegucigalpa-sunset.jpg" }}
+{{ $heroSrcset := "" }}
 {{ $hero := resources.Get "images/projects/honduras/hero-tegucigalpa-sunset.jpg" }}
 {{ if $hero }}
 {{ $hero1920 := $hero.Resize "1920x webp" }}
 {{ $heroFallback := $hero.Resize "1920x jpg" }}
-<section class="zh-hero" style="background-image:url({{ $heroFallback.RelPermalink }})">
+{{ $heroBg = $heroFallback.RelPermalink }}
+{{ $heroSrcset = $hero1920.RelPermalink }}
+{{ end }}
+<section class="zh-hero" style="background-image:url({{ $heroBg }})">
   <picture style="position:absolute;inset:0;z-index:0">
-    <source srcset="{{ $hero1920.RelPermalink }}" type="image/webp">
-    <img src="{{ $heroFallback.RelPermalink }}" alt="Tegucigalpa, Honduras — where we work"
+    {{ if $heroSrcset }}<source srcset="{{ $heroSrcset }}" type="image/webp">{{ end }}
+    <img src="{{ $heroBg }}" alt="Tegucigalpa, Honduras — where we work"
          style="width:100%;height:100%;object-fit:cover;display:block" loading="eager">
   </picture>
   <div class="zh-hero__inner">
@@ -21,7 +27,6 @@
     </div>
   </div>
 </section>
-{{ end }}
 
 {{/* ── INTRO COPY ────────────────────────────────────────────────────── */}}
 <section class="zh-section zh-container">
