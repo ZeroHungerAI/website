@@ -5,7 +5,8 @@ theme = "zerohunger"
 resourceDir = "../resources"
 
 DefaultContentLanguage = "en"
-Paginate = 6
+[pagination]
+  pagerSize = 6
 googleAnalytics = "G-YDRBDSQ6P9"
 enableRobotsTXT = true
 
