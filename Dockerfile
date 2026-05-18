@@ -6,7 +6,6 @@ ARG BASE_URL=""
 
 WORKDIR /src
 COPY ZeroHunger.ai ./ZeroHunger.ai
-COPY resources ./resources
 RUN cd ZeroHunger.ai && HUGO_ENABLEGITINFO=false hugo --minify --gc ${BASE_URL:+--baseURL "$BASE_URL"}
 
 # ── Stage 2: Serve ────────────────────────────────────────────────────────────
