@@ -1,0 +1,18 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ .Title }} — {{ .Site.Title }}{{ end }}</title>
+<meta name="description" content="{{ with .Description }}{{ . }}{{ else }}{{ .Site.Params.description }}{{ end }}">
+{{ with .Site.Params.googleAnalytics }}<meta name="google-site-verification" content="">{{ end }}
+<link rel="canonical" href="{{ .Permalink }}">
+{{ if .OutputFormats.Get "RSS" }}<link rel="alternate" type="application/rss+xml" title="{{ .Site.Title }}" href="{{ .Site.BaseURL }}index.xml">{{ end }}
+
+{{ $css := resources.Get "css/main.css" | minify | fingerprint }}
+<link rel="stylesheet" href="{{ $css.RelPermalink }}" integrity="{{ $css.Data.Integrity }}">
+
+<style>
+/* Wordmark font — must be inline so it applies to SVG text in header */
+@import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,300;0,6..12,400;0,6..12,600;0,6..12,700;0,6..12,800;1,6..12,400;1,6..12,600&display=swap');
+.zh-wm { font-family: "Avenir Next", "Avenir", "Nunito Sans", "Helvetica Neue", sans-serif; font-size: 52px; font-weight: 700; letter-spacing: -0.02em; }
+.zh-wm-fg { fill: currentColor; }
+.zh-wm-mute { opacity: 0.55; }
+</style>

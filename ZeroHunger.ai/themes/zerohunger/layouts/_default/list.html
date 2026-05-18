@@ -1,0 +1,19 @@
+{{ define "main" }}
+<div class="zh-container zh-section">
+  <header class="zh-prose" style="margin-bottom:var(--zh-space-4)">
+    <h1>{{ .Title }}</h1>
+    {{ with .Description }}<p class="zh-lede">{{ . }}</p>{{ end }}
+    {{ .Content }}
+  </header>
+
+  <section aria-label="{{ .Title }} list">
+    {{ range .Pages }}
+    <a class="zh-post-card" href="{{ .RelPermalink }}" style="display:grid;gap:var(--zh-space-2);padding:var(--zh-space-3) 0;border-bottom:1px solid var(--zh-border);text-decoration:none;color:inherit">
+      <h3 style="color:var(--zh-fg);margin:0;font-size:var(--zh-fs-f3)">{{ .Title }}</h3>
+      {{ if .Date }}<span class="meta" style="font-size:var(--zh-fs-f6);color:var(--zh-fg-muted)">{{ .Date.Format "January 2, 2006" }}</span>{{ end }}
+      {{ with .Description }}<p class="excerpt" style="font-size:var(--zh-fs-f5);color:var(--zh-fg-muted);margin:0;max-width:var(--zh-prose-max)">{{ . }}</p>{{ end }}
+    </a>
+    {{ end }}
+  </section>
+</div>
+{{ end }}

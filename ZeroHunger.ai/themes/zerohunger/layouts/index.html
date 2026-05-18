@@ -1,0 +1,107 @@
+{{ define "main" }}
+
+{{/* ── HERO ─────────────────────────────────────────────────────────── */}}
+{{ $hero := resources.Get "images/projects/honduras/hero-tegucigalpa-sunset.jpg" }}
+{{ if $hero }}
+{{ $hero1920 := $hero.Resize "1920x webp" }}
+{{ $heroFallback := $hero.Resize "1920x jpg" }}
+<section class="zh-hero" style="background-image:url({{ $heroFallback.RelPermalink }})">
+  <picture style="position:absolute;inset:0;z-index:0">
+    <source srcset="{{ $hero1920.RelPermalink }}" type="image/webp">
+    <img src="{{ $heroFallback.RelPermalink }}" alt="Tegucigalpa, Honduras — where we work"
+         style="width:100%;height:100%;object-fit:cover;display:block" loading="eager">
+  </picture>
+  <div class="zh-hero__inner">
+    <p class="zh-eyebrow" style="color:rgba(255,255,255,0.8);margin:0 0 1rem">Impact through Software &amp; AI</p>
+    <h1>{{ .Title }}</h1>
+    {{ with .Description }}<p class="dek">{{ . }}</p>{{ end }}
+    <div style="margin-top:2rem;display:flex;gap:1rem;justify-content:center;flex-wrap:wrap">
+      <a href="#contact" class="zh-btn zh-btn--primary">Start Your Project</a>
+      <a href="/projects/" class="zh-btn zh-btn--ghost" style="color:#fff;border-color:#fff">Our Projects</a>
+    </div>
+  </div>
+</section>
+{{ end }}
+
+{{/* ── INTRO COPY ────────────────────────────────────────────────────── */}}
+<section class="zh-section zh-container">
+  <div class="zh-prose zh-prose--center">
+    {{ .Content }}
+  </div>
+</section>
+
+<hr class="zh-rule">
+
+{{/* ── PROJECTS TEASER ──────────────────────────────────────────────── */}}
+<section class="zh-section zh-container" aria-labelledby="projects-heading">
+  <h2 id="projects-heading" style="text-align:center;margin-bottom:var(--zh-space-4)">Our Projects</h2>
+  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:var(--zh-space-4)">
+
+    {{/* Honduras card */}}
+    {{ $hondurasImg := resources.Get "images/projects/honduras/ccit-labor-unit-presentation.jpg" }}
+    <article style="border:1px solid var(--zh-border);border-radius:var(--zh-radius-2);overflow:hidden;display:flex;flex-direction:column">
+      {{ if $hondurasImg }}
+      {{ $thumb := $hondurasImg.Resize "600x300 webp" }}
+      {{ $thumbFallback := $hondurasImg.Resize "600x300 jpg" }}
+      <picture>
+        <source srcset="{{ $thumb.RelPermalink }}" type="image/webp">
+        <img src="{{ $thumbFallback.RelPermalink }}" alt="Honduras labor platform workshop"
+             loading="lazy" width="600" height="300"
+             style="width:100%;height:200px;object-fit:cover;display:block">
+      </picture>
+      {{ end }}
+      <div style="padding:var(--zh-space-3);display:flex;flex-direction:column;flex:1">
+        <p class="zh-eyebrow" style="margin:0 0 0.5rem">🇭🇳 Honduras</p>
+        <h3 style="margin:0 0 var(--zh-space-2)">National Labor Intermediation Platform</h3>
+        <p style="font-size:var(--zh-fs-f5);color:var(--zh-fg-muted);flex:1;margin:0 0 var(--zh-space-3)">
+          Helping 43 chambers of commerce scale a national digital labor platform connecting 20,000 enterprises with job seekers across 17 departments.
+        </p>
+        <a class="zh-btn zh-btn--ghost" href="/projects/honduras/" style="align-self:flex-start">Read the story →</a>
+      </div>
+    </article>
+
+    {{/* Ethiopia placeholder card */}}
+    <article style="border:2px dashed var(--zh-border);border-radius:var(--zh-radius-2);display:flex;flex-direction:column;background:var(--zh-bg-muted)">
+      <div style="height:200px;display:flex;align-items:center;justify-content:center;background:var(--zh-light-gray)">
+        <span style="font-size:3rem">🇪🇹</span>
+      </div>
+      <div style="padding:var(--zh-space-3);display:flex;flex-direction:column;flex:1">
+        <p class="zh-eyebrow" style="margin:0 0 0.5rem">Ethiopia — Coming Soon</p>
+        <h3 style="margin:0 0 var(--zh-space-2)">Agricultural Impact Platform</h3>
+        <p style="font-size:var(--zh-fs-f5);color:var(--zh-fg-muted);flex:1;margin:0 0 var(--zh-space-3)">
+          Our next project — leveraging technology to improve food security and smallholder farmer outcomes in Ethiopia. Details coming soon.
+        </p>
+        <span class="zh-btn zh-btn--ghost" style="align-self:flex-start;opacity:0.5;cursor:default">Coming soon</span>
+      </div>
+    </article>
+
+  </div>
+</section>
+
+<hr class="zh-rule">
+
+{{/* ── CONTACT ──────────────────────────────────────────────────────── */}}
+<section id="contact" class="zh-section zh-container" aria-labelledby="contact-heading">
+  <div class="zh-prose zh-prose--center" style="margin-bottom:var(--zh-space-4)">
+    <h2 id="contact-heading">What's Your Challenge?</h2>
+    <p>Use the form below to tell us how software or AI can help you or the people you work with. Or, book a meeting now to turn your idea into a product in the next development cycle.</p>
+  </div>
+
+  <div style="max-width:36rem;margin:0 auto">
+    {{< form-contact action="https://fabform.io/f/-xMvsgp" >}}
+  </div>
+
+  <div class="zh-section--tight" style="text-align:center">
+    <p class="zh-or">OR</p>
+  </div>
+
+  <div style="max-width:900px;margin:0 auto">
+    <iframe src='https://outlook.office365.com/owa/calendar/Bookameeting@zerohunger.ai/bookings/'
+            width='100%' height='700' scrolling='yes'
+            title="Book a meeting"
+            style='border:0;border-radius:var(--zh-radius-2)'
+            loading="lazy"></iframe>
+  </div>
+</section>
+
+{{ end }}

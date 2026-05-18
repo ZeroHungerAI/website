@@ -4,8 +4,10 @@ featured_image: '../images/workshop.jpg'
 omit_header_text: true
 description: Join our open workshops!
 type: page
-menu: main
-weight: 3
+menu:
+  main:
+    name: "Workshops"
+    weight: 3
 
 ---
 

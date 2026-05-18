@@ -1,0 +1,460 @@
+/* =============================================================
+   ZeroHunger.ai — Core tokens
+   Derived from the live Hugo site (Ananke theme, Tachyons CSS).
+   Repo: https://github.com/ZeroHungerAI/website
+   ============================================================= */
+
+/* ----- Web fonts -----------------------------------------------
+   The site's CSS stack is `'avenir next', avenir, 'helvetica neue',
+   helvetica, sans-serif` (Tachyons default). Avenir Next is a
+   proprietary Linotype face and is not redistributable, so we
+   substitute Nunito Sans from Google Fonts — the closest free
+   match in proportion, x-height and humanist feel. On macOS the
+   real Avenir Next still wins via the @font-face fallback chain.
+   --------------------------------------------------------------- */
+@import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,wght@0,300;0,400;0,600;0,700;0,800;1,400;1,600&display=swap');
+
+:root {
+  /* ---------- COLOR — Tachyons primitives ---------------------- */
+  /* Brand */
+  --zh-blue:        #357edd;  /* tachyons .bg-blue  — site hero    */
+  --zh-blue-light:  #96ccff;  /* tachyons .bg-light-blue           */
+  --zh-blue-dark:   #00449e;  /* tachyons .bg-dark-blue            */
+  --zh-navy:        #001b44;  /* tachyons .bg-navy — heavy footer  */
+
+  /* Neutrals (Tachyons gray scale) */
+  --zh-black:       #000000;
+  --zh-near-black:  #111111;
+  --zh-dark-gray:   #333333;
+  --zh-mid-gray:    #555555;
+  --zh-gray:        #777777;
+  --zh-silver:      #999999;
+  --zh-light-silver:#aaaaaa;
+  --zh-moon-gray:   #cccccc;
+  --zh-light-gray:  #eeeeee;
+  --zh-near-white:  #f4f4f4;
+  --zh-white:       #ffffff;
+
+  /* Functional alpha-on-dark (Ananke hero overlay) */
+  --zh-white-90:    rgba(255, 255, 255, .9);
+  --zh-white-80:    rgba(255, 255, 255, .8);
+  --zh-white-70:    rgba(255, 255, 255, .7);
+  --zh-white-60:    rgba(255, 255, 255, .6);
+  --zh-black-50:    rgba(0, 0, 0, .5);
+  --zh-black-40:    rgba(0, 0, 0, .4);
+
+  /* Accent / supporting (drawn from the brand photography palette
+     — orange workshop sticky-notes, teal glass, warm globe glow). */
+  --zh-accent-orange: #ff6300;  /* tachyons .orange                */
+  --zh-accent-gold:   #ffb700;  /* tachyons .gold — call-to-action */
+  --zh-accent-green:  #19a974;  /* tachyons .green — impact / SDG  */
+  --zh-accent-washed: #e8fdf5;  /* tachyons .washed-green          */
+  --zh-accent-red:    #ff4136;  /* tachyons .red — validation err  */
+
+  /* ---------- SEMANTIC tokens ---------------------------------- */
+  --zh-bg:            var(--zh-white);
+  --zh-bg-elevated:   var(--zh-white);
+  --zh-bg-muted:      var(--zh-near-white);
+  --zh-bg-inverse:    var(--zh-blue);       /* hero / footer       */
+  --zh-bg-deep:       var(--zh-navy);
+
+  --zh-fg:            var(--zh-black);      /* body copy           */
+  --zh-fg-muted:      var(--zh-mid-gray);
+  --zh-fg-faint:      var(--zh-gray);
+  --zh-fg-inverse:    var(--zh-white);
+  --zh-fg-inverse-muted: var(--zh-white-70);
+
+  --zh-link:          var(--zh-blue);
+  --zh-link-hover:    var(--zh-blue-dark);
+  --zh-border:        var(--zh-moon-gray);
+  --zh-border-strong: var(--zh-mid-gray);
+  --zh-focus:         var(--zh-blue);
+
+  /* ---------- TYPE — families ---------------------------------- */
+  --zh-font-sans: "Avenir Next", "Avenir", "Nunito Sans",
+                  "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --zh-font-mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+
+  /* ---------- TYPE — scale (Tachyons f1..f7) ------------------- */
+  --zh-fs-f1:  3rem;       /* 48 — page hero                       */
+  --zh-fs-f2:  2.25rem;    /* 36 — section opener                  */
+  --zh-fs-f3:  1.5rem;     /* 24 — subhead                         */
+  --zh-fs-f4:  1.25rem;    /* 20 — lede / large body               */
+  --zh-fs-f5:  1rem;       /* 16 — body                            */
+  --zh-fs-f6:  .875rem;    /* 14 — meta / labels                   */
+  --zh-fs-f7:  .75rem;     /* 12 — micro                           */
+
+  /* Display sizes for hero overlays (Tachyons f-headline / f-subheadline) */
+  --zh-fs-headline:    6rem;     /* 96 — front-page hero            */
+  --zh-fs-subheadline: 5rem;     /* 80                              */
+
+  /* Line-heights — Tachyons lh-solid / lh-title / lh-copy */
+  --zh-lh-solid: 1;
+  --zh-lh-title: 1.25;
+  --zh-lh-copy:  1.5;
+
+  /* Weights — Avenir Next & Nunito Sans share 300/400/600/700/800 */
+  --zh-fw-light:    300;
+  --zh-fw-regular:  400;
+  --zh-fw-semibold: 600;
+  --zh-fw-bold:     700;
+  --zh-fw-heavy:    800;
+
+  /* Letter spacing — Ananke titles use slight neg tracking */
+  --zh-tracking-tight:  -0.01em;
+  --zh-tracking-normal:  0;
+  --zh-tracking-mega:    0.25em; /* eyebrow labels                  */
+
+  /* ---------- SPACING (Tachyons step scale × 0.25rem base) ----- */
+  --zh-space-1: .25rem;   /* 4   */
+  --zh-space-2: .5rem;    /* 8   */
+  --zh-space-3: 1rem;     /* 16  */
+  --zh-space-4: 2rem;     /* 32  */
+  --zh-space-5: 4rem;     /* 64  */
+  --zh-space-6: 8rem;     /* 128 */
+  --zh-space-7: 16rem;    /* 256 */
+
+  /* Measure (line length) — Tachyons measure / measure-wide */
+  --zh-measure:        30em;
+  --zh-measure-wide:   34em;
+  --zh-measure-narrow: 20em;
+
+  /* ---------- RADII --------------------------------------------- */
+  /* Ananke is a flat / square theme; only utility chips round.    */
+  --zh-radius-0: 0;
+  --zh-radius-1: .125rem;   /* 2  — Tachyons br1                   */
+  --zh-radius-2: .25rem;    /* 4  — Tachyons br2 — buttons, inputs */
+  --zh-radius-3: .5rem;     /* 8  — Tachyons br3 — cards (rare)    */
+  --zh-radius-pill: 9999px; /* Tachyons br-pill — tag chips        */
+
+  /* ---------- SHADOW (Tachyons shadow-1..5) --------------------- */
+  /* The live site uses these sparingly — featured-image hero has
+     a black 40 % overlay, not a drop-shadow.                       */
+  --zh-shadow-1: 0 0 4px 2px rgba(0, 0, 0, .2);
+  --zh-shadow-2: 0 0 8px 2px rgba(0, 0, 0, .2);
+  --zh-shadow-3: 2px 2px 4px 2px rgba(0, 0, 0, .2);
+  --zh-shadow-4: 2px 2px 8px 0   rgba(0, 0, 0, .2);
+  --zh-shadow-5: 4px 4px 8px 0   rgba(0, 0, 0, .2);
+
+  /* Hero protection gradient — overlay used on every featured-image */
+  --zh-hero-overlay: linear-gradient(
+      to bottom,
+      rgba(0,0,0,.55) 0%,
+      rgba(0,0,0,.35) 40%,
+      rgba(0,0,0,.55) 100%);
+
+  /* ---------- MOTION ------------------------------------------- */
+  /* Tachyons / Ananke uses .dim — opacity 1 → .5 over 150ms. That's
+     the entire animation system. We expose it as tokens.           */
+  --zh-dur-fast:   100ms;
+  --zh-dur-base:   150ms;     /* tachyons .dim transition           */
+  --zh-dur-slow:   250ms;
+  --zh-ease:       ease-in;   /* tachyons .dim                      */
+
+  /* ---------- LAYOUT ------------------------------------------- */
+  --zh-content-max: 64rem;    /* Tachyons mw8                       */
+  --zh-prose-max:   34em;     /* measure-wide                       */
+  --zh-page-pad:    var(--zh-space-3);
+  --zh-page-pad-l:  var(--zh-space-5);
+}
+
+/* =============================================================
+   Semantic element styles — use these directly, not the raw vars,
+   so theme switches stay in one place.
+   ============================================================= */
+
+html { font-size: 16px; }
+
+body {
+  font-family: var(--zh-font-sans);
+  font-weight: var(--zh-fw-regular);
+  font-size: var(--zh-fs-f5);
+  line-height: var(--zh-lh-copy);
+  color: var(--zh-fg);
+  background: var(--zh-bg);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Headings — Ananke uses Tachyons lh-title + fw bold for h1/h2,
+   semibold for h3/h4. Hero h1 grows to f-headline on the home page. */
+h1, .zh-h1 {
+  font-size: var(--zh-fs-f1);
+  font-weight: var(--zh-fw-bold);
+  line-height: var(--zh-lh-title);
+  letter-spacing: var(--zh-tracking-tight);
+  margin: 0 0 var(--zh-space-3);
+}
+h2, .zh-h2 {
+  font-size: var(--zh-fs-f2);
+  font-weight: var(--zh-fw-bold);
+  line-height: var(--zh-lh-title);
+  margin: var(--zh-space-4) 0 var(--zh-space-3);
+}
+h3, .zh-h3 {
+  font-size: var(--zh-fs-f3);
+  font-weight: var(--zh-fw-semibold);
+  line-height: var(--zh-lh-title);
+  margin: var(--zh-space-3) 0 var(--zh-space-2);
+}
+h4, .zh-h4 {
+  font-size: var(--zh-fs-f4);
+  font-weight: var(--zh-fw-semibold);
+  line-height: var(--zh-lh-title);
+  margin: var(--zh-space-3) 0 var(--zh-space-2);
+}
+
+.zh-hero-title {
+  font-size: clamp(2.5rem, 7vw, var(--zh-fs-headline));
+  font-weight: var(--zh-fw-bold);
+  line-height: var(--zh-lh-solid);
+  color: var(--zh-fg-inverse);
+}
+
+.zh-eyebrow {
+  font-size: var(--zh-fs-f6);
+  font-weight: var(--zh-fw-bold);
+  letter-spacing: var(--zh-tracking-mega);
+  text-transform: uppercase;
+  color: var(--zh-fg-muted);
+}
+
+p, .zh-p {
+  font-size: var(--zh-fs-f5);
+  line-height: var(--zh-lh-copy);
+  max-width: var(--zh-prose-max);
+  margin: 0 0 var(--zh-space-3);
+}
+
+.zh-lede {
+  font-size: var(--zh-fs-f4);
+  line-height: var(--zh-lh-copy);
+  color: var(--zh-fg);
+  max-width: var(--zh-prose-max);
+}
+
+.zh-meta {
+  font-size: var(--zh-fs-f6);
+  color: var(--zh-fg-muted);
+}
+
+a, .zh-link {
+  color: var(--zh-link);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
+  transition: opacity var(--zh-dur-base) var(--zh-ease),
+              color   var(--zh-dur-base) var(--zh-ease);
+}
+a:hover, .zh-link:hover { opacity: .5; }
+
+code, .zh-code {
+  font-family: var(--zh-font-mono);
+  font-size: .9em;
+  background: var(--zh-light-gray);
+  padding: .15em .35em;
+  border-radius: var(--zh-radius-1);
+}
+
+/* UI kit additions on top of the shared design tokens. */
+
+html, body { margin: 0; padding: 0; background: var(--zh-bg); }
+body { font-family: var(--zh-font-sans); color: var(--zh-fg); }
+* { box-sizing: border-box; }
+
+/* ---------- layout primitives ---------- */
+.zh-container { max-width: var(--zh-content-max); margin: 0 auto; padding: 0 var(--zh-page-pad); }
+@media (min-width: 60em) { .zh-container { padding: 0 var(--zh-page-pad-l); } }
+
+.zh-section { padding: var(--zh-space-5) 0; }
+.zh-section--tight { padding: var(--zh-space-4) 0; }
+
+.zh-prose { max-width: var(--zh-prose-max); margin: 0 auto; }
+.zh-prose--center { text-align: center; }
+.zh-prose p { font-size: var(--zh-fs-f4); line-height: var(--zh-lh-copy); color: var(--zh-fg); margin: 0 0 var(--zh-space-3); }
+.zh-prose p:last-child { margin-bottom: 0; }
+.zh-prose h1 { font-size: var(--zh-fs-f1); margin: var(--zh-space-4) 0 var(--zh-space-3); }
+.zh-prose h2 { font-size: var(--zh-fs-f2); margin: var(--zh-space-4) 0 var(--zh-space-3); }
+.zh-prose h3 { font-size: var(--zh-fs-f3); margin: var(--zh-space-3) 0 var(--zh-space-2); }
+.zh-prose a { color: var(--zh-link); }
+
+/* ---------- header ---------- */
+.zh-header {
+  position: sticky; top: 0; z-index: 50;
+  background: var(--zh-blue);
+  color: #fff;
+}
+.zh-header__inner {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: var(--zh-space-2) var(--zh-page-pad);
+}
+@media (min-width: 60em) { .zh-header__inner { padding: var(--zh-space-2) var(--zh-page-pad-l); } }
+.zh-brand {
+  font-weight: var(--zh-fw-bold);
+  font-size: 1.5rem;
+  letter-spacing: var(--zh-tracking-tight);
+  color: #fff;
+  text-decoration: none;
+  line-height: 1;
+}
+.zh-brand .ai { opacity: .7; }
+.zh-nav { display: flex; gap: var(--zh-space-3); align-items: center; }
+.zh-nav a {
+  color: #fff;
+  text-decoration: none;
+  font-weight: var(--zh-fw-semibold);
+  font-size: var(--zh-fs-f5);
+  padding: var(--zh-space-1) var(--zh-space-2);
+  transition: opacity var(--zh-dur-base) var(--zh-ease);
+}
+.zh-nav a:hover, .zh-nav a:focus { opacity: .6; }
+.zh-nav a.is-active { text-decoration: underline; text-underline-offset: 6px; text-decoration-thickness: 2px; }
+
+.zh-burger { display: none; background: none; border: 0; color: #fff; font-size: 24px; cursor: pointer; }
+@media (max-width: 39.99em) {
+  .zh-nav { display: none; position: absolute; top: 100%; left: 0; right: 0; background: var(--zh-blue); flex-direction: column; padding: var(--zh-space-2) var(--zh-space-3); gap: 0; }
+  .zh-nav.is-open { display: flex; }
+  .zh-nav a { padding: var(--zh-space-2) 0; border-bottom: 1px solid rgba(255,255,255,.15); }
+  .zh-burger { display: inline-block; }
+}
+
+/* ---------- hero ---------- */
+.zh-hero {
+  position: relative;
+  min-height: 64vh;
+  display: flex; align-items: center; justify-content: center;
+  text-align: center;
+  color: #fff;
+  background: var(--zh-blue);
+  background-size: cover;
+  background-position: center;
+  overflow: hidden;
+}
+.zh-hero::before {
+  content: "";
+  position: absolute; inset: 0;
+  background: var(--zh-hero-overlay);
+  pointer-events: none;
+}
+.zh-hero__inner {
+  position: relative; z-index: 1;
+  padding: var(--zh-space-6) var(--zh-page-pad);
+  max-width: 56rem;
+}
+.zh-hero h1 {
+  font-size: clamp(2.25rem, 7vw, var(--zh-fs-headline));
+  font-weight: var(--zh-fw-bold);
+  line-height: var(--zh-lh-solid);
+  letter-spacing: var(--zh-tracking-tight);
+  margin: 0;
+  color: #fff;
+}
+.zh-hero p.dek {
+  margin: var(--zh-space-3) auto 0;
+  font-size: var(--zh-fs-f4);
+  max-width: 36rem;
+  color: rgba(255,255,255,.9);
+}
+
+/* ---------- buttons ---------- */
+.zh-btn {
+  display: inline-flex; align-items: center; gap: var(--zh-space-2);
+  font-family: var(--zh-font-sans);
+  font-weight: var(--zh-fw-bold);
+  font-size: var(--zh-fs-f5);
+  padding: .75rem 1.5rem;
+  border-radius: var(--zh-radius-2);
+  border: 0;
+  cursor: pointer;
+  text-decoration: none;
+  letter-spacing: .01em;
+  transition: opacity var(--zh-dur-base) var(--zh-ease), transform 100ms ease;
+}
+.zh-btn:hover { opacity: .5; }
+.zh-btn:active { transform: translateY(1px); }
+.zh-btn:focus-visible { outline: 2px solid var(--zh-focus); outline-offset: 3px; }
+.zh-btn--primary { background: var(--zh-blue); color: #fff; }
+.zh-btn--dark    { background: var(--zh-near-black); color: #fff; }
+.zh-btn--ghost   { background: transparent; color: var(--zh-blue); border: 1px solid var(--zh-blue); padding: calc(.75rem - 1px) calc(1.5rem - 1px); }
+.zh-btn--block   { display: flex; width: 100%; justify-content: center; }
+
+/* ---------- form ---------- */
+.zh-form { display: grid; gap: var(--zh-space-3); max-width: 36rem; margin: 0 auto; text-align: left; }
+.zh-field { display: grid; gap: 6px; }
+.zh-label { font-size: var(--zh-fs-f6); font-weight: var(--zh-fw-semibold); color: var(--zh-fg); }
+.zh-label .req { color: var(--zh-accent-red); margin-left: 2px; }
+.zh-input, .zh-textarea {
+  font-family: var(--zh-font-sans);
+  font-size: var(--zh-fs-f5);
+  padding: .65rem .85rem;
+  border: 1px solid var(--zh-border);
+  border-radius: var(--zh-radius-2);
+  width: 100%;
+  background: #fff;
+  color: var(--zh-fg);
+}
+.zh-input:focus, .zh-textarea:focus { outline: 2px solid var(--zh-focus); outline-offset: 2px; border-color: var(--zh-focus); }
+.zh-textarea { min-height: 8rem; resize: vertical; }
+.zh-help { font-size: var(--zh-fs-f7); color: var(--zh-fg-faint); }
+.zh-success {
+  background: var(--zh-accent-washed);
+  border-left: 4px solid var(--zh-accent-green);
+  padding: var(--zh-space-3);
+  color: var(--zh-near-black);
+  border-radius: var(--zh-radius-2);
+}
+
+/* ---------- divider rule (used between home sections) ---------- */
+.zh-rule { border: 0; border-top: 1px solid var(--zh-border); margin: var(--zh-space-4) auto; max-width: 4rem; }
+.zh-or { text-align: center; font-size: var(--zh-fs-f3); font-weight: var(--zh-fw-bold); color: var(--zh-fg-muted); letter-spacing: .25em; }
+
+/* ---------- footer ---------- */
+.zh-footer {
+  background: var(--zh-blue);
+  color: rgba(255,255,255,.7);
+  padding: var(--zh-space-3) 0;
+  margin-top: var(--zh-space-6);
+}
+.zh-footer__inner {
+  display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: var(--zh-space-3);
+  padding: 0 var(--zh-page-pad);
+}
+@media (min-width: 60em) { .zh-footer__inner { padding: 0 var(--zh-page-pad-l); } }
+.zh-footer a { color: rgba(255,255,255,.7); text-decoration: none; padding: .5rem .75rem; transition: color var(--zh-dur-base) var(--zh-ease); }
+.zh-footer a:hover { color: #fff; }
+.zh-socials { display: flex; gap: var(--zh-space-1); }
+.zh-socials a { display: inline-flex; align-items: center; justify-content: center; width: 36px; height: 36px; padding: 0; }
+.zh-socials svg { width: 18px; height: 18px; }
+
+/* ---------- blog summary ---------- */
+.zh-post-card {
+  display: grid;
+  gap: var(--zh-space-2);
+  padding: var(--zh-space-3) 0;
+  border-bottom: 1px solid var(--zh-border);
+  text-decoration: none;
+  color: inherit;
+}
+.zh-post-card:last-child { border-bottom: 0; }
+.zh-post-card h3 { color: var(--zh-fg); margin: 0; font-size: var(--zh-fs-f3); }
+.zh-post-card .meta { font-size: var(--zh-fs-f6); color: var(--zh-fg-muted); }
+.zh-post-card .excerpt { font-size: var(--zh-fs-f5); color: var(--zh-fg-muted); margin: 0; max-width: var(--zh-prose-max); }
+.zh-post-card:hover h3 { opacity: .5; }
+
+/* ---------- table (workshops) ---------- */
+.zh-table { width: 100%; border-collapse: collapse; font-size: var(--zh-fs-f5); }
+.zh-table th, .zh-table td { text-align: left; padding: var(--zh-space-2) var(--zh-space-3); border-bottom: 1px solid var(--zh-border); }
+.zh-table th { font-weight: var(--zh-fw-bold); font-size: var(--zh-fs-f6); letter-spacing: 0.04em; text-transform: uppercase; color: var(--zh-fg-muted); }
+.zh-table tr:last-child td { border-bottom: 0; }
+
+/* ---------- booking placeholder ---------- */
+.zh-booking {
+  border: 2px dashed var(--zh-border);
+  border-radius: var(--zh-radius-2);
+  padding: var(--zh-space-5) var(--zh-space-3);
+  text-align: center;
+  color: var(--zh-fg-muted);
+  background: var(--zh-bg-muted);
+}
+.zh-booking h3 { color: var(--zh-fg); margin: 0 0 var(--zh-space-2); }
+.zh-booking p { margin: 0 0 var(--zh-space-3); }

@@ -4,8 +4,10 @@ featured_image: '../images/contact.jpg'
 #omit_header_text: true
 description: Volunteers wanted!
 type: page
-menu: main
-weight: 2
+menu:
+  main:
+    name: "Contribute"
+    weight: 4
 
 ---
 

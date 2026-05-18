@@ -1,0 +1,9 @@
+name = "ZeroHunger"
+license = "MIT"
+licenselink = ""
+description = "Custom theme for ZeroHunger.ai — built from the ZeroHunger Design System"
+homepage = "https://www.zerohunger.ai"
+min_version = "0.110.0"
+
+[author]
+  name = "ZeroHunger.ai"
