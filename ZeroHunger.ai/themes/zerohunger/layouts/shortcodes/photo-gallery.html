@@ -1,0 +1,50 @@
+{{/* photo-gallery shortcode
+   Usage: {{< photo-gallery dir="images/projects/honduras" >}}
+   Finds all .jpg/.webp in the given assets sub-directory and renders a
+   responsive grid with WebP + JPEG fallback and lazy loading.
+*/}}
+{{ $dir := .Get "dir" | default "images" }}
+{{ $caption := .Get "caption" | default "" }}
+
+{{ $images := resources.Match (printf "%s/*.jpg" $dir) }}
+{{ $webpImages := resources.Match (printf "%s/*.webp" $dir) }}
+{{ $all := $images | append $webpImages }}
+
+{{ if $all }}
+<div class="zh-gallery" role="list" aria-label="{{ with $caption }}{{ . }}{{ else }}Photo gallery{{ end }}">
+  {{ range $all }}
+  {{ $src := . }}
+  {{ $thumb := $src.Resize "600x webp q82" }}
+  {{ $full  := $src.Resize "1200x webp q82" }}
+  {{ $fallback := $src.Resize "1200x jpg q82" }}
+  <figure class="zh-gallery__item" role="listitem">
+    <a href="{{ $full.RelPermalink }}" target="_blank" rel="noopener">
+      <picture>
+        <source srcset="{{ $thumb.RelPermalink }}" type="image/webp">
+        {{ $thumbFallback := $src.Resize "600x jpg q82" }}
+        <img src="{{ $thumbFallback.RelPermalink }}"
+             alt=""
+             loading="lazy"
+             width="{{ $thumb.Width }}"
+             height="{{ $thumb.Height }}"
+             style="width:100%;height:240px;object-fit:cover;display:block;border-radius:var(--zh-radius-2)">
+      </picture>
+    </a>
+  </figure>
+  {{ end }}
+</div>
+{{ with $caption }}<p class="zh-meta" style="text-align:center;margin-top:var(--zh-space-2)">{{ . }}</p>{{ end }}
+
+<style>
+.zh-gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: var(--zh-space-3);
+  margin: var(--zh-space-4) 0;
+}
+.zh-gallery__item { margin: 0; }
+.zh-gallery__item a:focus-visible { outline: 2px solid var(--zh-focus); outline-offset: 3px; border-radius: var(--zh-radius-2); }
+</style>
+{{ else }}
+<p class="zh-meta"><em>No photos found in {{ $dir }}.</em></p>
+{{ end }}

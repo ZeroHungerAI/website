@@ -1,0 +1,43 @@
+{{ define "main" }}
+{{/* Hero image for project */}}
+{{ if .Params.featured_image }}
+{{ $img := resources.Get .Params.featured_image }}
+{{ if $img }}
+{{ $hero := $img.Resize "1400x webp" }}
+{{ $heroFallback := $img.Resize "1400x jpg" }}
+<div style="position:relative;max-height:480px;overflow:hidden">
+  <picture>
+    <source srcset="{{ $hero.RelPermalink }}" type="image/webp">
+    <img src="{{ $heroFallback.RelPermalink }}" alt="{{ .Title }}"
+         loading="eager" style="width:100%;max-height:480px;object-fit:cover;display:block">
+  </picture>
+  <div style="position:absolute;inset:0;background:rgba(0,0,0,0.4);display:flex;align-items:flex-end;padding:var(--zh-space-4) var(--zh-space-5)">
+    {{ with .Params.country }}<p class="zh-eyebrow" style="color:rgba(255,255,255,0.85);margin:0 0 0.5rem">{{ . }}</p>{{ end }}
+    <h1 style="color:#fff;margin:0;font-size:clamp(1.5rem,4vw,var(--zh-fs-f1))">{{ .Title }}</h1>
+  </div>
+</div>
+{{ end }}
+{{ end }}
+
+<article class="zh-container zh-section">
+  {{ if not .Params.featured_image }}
+  <header class="zh-prose" style="margin-bottom:var(--zh-space-4)">
+    {{ with .Params.country }}<p class="zh-eyebrow">{{ . }}</p>{{ end }}
+    <h1>{{ .Title }}</h1>
+    {{ with .Description }}<p class="zh-lede">{{ . }}</p>{{ end }}
+  </header>
+  {{ else }}
+  <header class="zh-prose" style="margin-bottom:var(--zh-space-4)">
+    {{ with .Description }}<p class="zh-lede">{{ . }}</p>{{ end }}
+  </header>
+  {{ end }}
+
+  <div class="zh-prose">
+    {{ .Content }}
+  </div>
+
+  <nav aria-label="Back to projects" style="margin-top:var(--zh-space-5)">
+    <a href="/projects/" class="zh-btn zh-btn--ghost">← All Projects</a>
+  </nav>
+</article>
+{{ end }}

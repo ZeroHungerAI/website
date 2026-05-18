@@ -1,0 +1,15 @@
+<form class="zh-form" accept-charset="UTF-8" action="{{ .Get "action" }}" method="POST" role="form">
+  <div class="zh-field">
+    <label class="zh-label" for="name">Name <span class="req" aria-hidden="true">*</span></label>
+    <input class="zh-input" type="text" id="name" name="name" required placeholder="Your name" aria-required="true">
+  </div>
+  <div class="zh-field">
+    <label class="zh-label" for="email">Email address <span class="req" aria-hidden="true">*</span></label>
+    <input class="zh-input" type="email" id="email" name="email" required placeholder="you@example.com" aria-required="true">
+  </div>
+  <div class="zh-field">
+    <label class="zh-label" for="message">Message</label>
+    <textarea class="zh-textarea" id="message" name="message" placeholder="Tell us about your challenge…"></textarea>
+  </div>
+  <button class="zh-btn zh-btn--primary" type="submit">Send message</button>
+</form>

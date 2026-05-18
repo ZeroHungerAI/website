@@ -1,0 +1,30 @@
+{{ define "main" }}
+<article class="zh-container zh-section">
+  {{ if .Params.featured_image }}
+  {{ $img := resources.Get .Params.featured_image }}
+  {{ if $img }}
+  {{ $hero := $img.Resize "1200x webp" }}
+  {{ $fallback := $img.Resize "1200x jpg" }}
+  <picture style="display:block;margin-bottom:var(--zh-space-4)">
+    <source srcset="{{ $hero.RelPermalink }}" type="image/webp">
+    <img src="{{ $fallback.RelPermalink }}" alt="{{ .Title }}"
+         loading="eager" style="width:100%;max-height:440px;object-fit:cover;border-radius:var(--zh-radius-2);display:block">
+  </picture>
+  {{ end }}
+  {{ end }}
+
+  <header class="zh-prose" style="margin-bottom:var(--zh-space-4)">
+    <h1>{{ .Title }}</h1>
+    {{ if .Date }}<p class="zh-meta">{{ .Date.Format "January 2, 2006" }}</p>{{ end }}
+    {{ with .Description }}<p class="zh-lede">{{ . }}</p>{{ end }}
+  </header>
+
+  <div class="zh-prose">
+    {{ .Content }}
+  </div>
+
+  <nav aria-label="Back to blog" style="margin-top:var(--zh-space-5)">
+    <a href="/post/" class="zh-btn zh-btn--ghost">← All Posts</a>
+  </nav>
+</article>
+{{ end }}

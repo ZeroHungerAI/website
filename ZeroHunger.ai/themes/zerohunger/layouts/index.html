@@ -1,0 +1,123 @@
+{{ define "main" }}
+
+{{/* ── HERO ─────────────────────────────────────────────────────────── */}}
+{{ $heroBg := "/images/workshop.jpg" }}
+<section class="zh-hero" style="background-image:url({{ $heroBg }})">
+  <picture style="position:absolute;inset:0;z-index:0">
+    <img src="{{ $heroBg }}" alt="ZeroHunger.ai team workshop"
+         style="width:100%;height:100%;object-fit:cover;display:block" loading="eager">
+  </picture>
+  <div class="zh-hero__inner">
+    <p class="zh-eyebrow" style="color:rgba(255,255,255,0.8);margin:0 0 1rem">Impact through Software &amp; AI</p>
+    <h1>{{ .Title }}</h1>
+    {{ with .Description }}<p class="dek">{{ . }}</p>{{ end }}
+    <div style="margin-top:2rem;display:flex;gap:1rem;justify-content:center;flex-wrap:wrap">
+      <a href="#contact" class="zh-btn zh-btn--primary">Book a Meeting</a>
+      <a href="/projects/" class="zh-btn zh-btn--ghost" style="color:#fff;border-color:#fff">Our Projects</a>
+    </div>
+  </div>
+</section>
+
+{{/* ── INTRO COPY ────────────────────────────────────────────────────── */}}
+<section class="zh-section zh-container">
+  <div class="zh-prose zh-prose--center">
+    {{ .Content }}
+  </div>
+</section>
+
+<hr class="zh-rule">
+
+{{/* ── PROJECTS TEASER ──────────────────────────────────────────────── */}}
+<section class="zh-section zh-container" aria-labelledby="projects-heading">
+  <h2 id="projects-heading" style="text-align:center;margin-bottom:var(--zh-space-4)">Our Projects</h2>
+  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:var(--zh-space-4)">
+
+    {{/* Honduras card */}}
+    {{ $hondurasImg := resources.Get "images/projects/honduras/ccit-labor-unit-presentation.jpg" }}
+    <article style="border:1px solid var(--zh-border);border-radius:var(--zh-radius-2);overflow:hidden;display:flex;flex-direction:column">
+      {{ if $hondurasImg }}
+      {{ $thumb := $hondurasImg.Resize "600x300 webp" }}
+      {{ $thumbFallback := $hondurasImg.Resize "600x300 jpg" }}
+      <picture>
+        <source srcset="{{ $thumb.RelPermalink }}" type="image/webp">
+        <img src="{{ $thumbFallback.RelPermalink }}" alt="Honduras labor platform workshop"
+             loading="lazy" width="600" height="300"
+             style="width:100%;height:200px;object-fit:cover;display:block">
+      </picture>
+      {{ end }}
+      <div style="padding:var(--zh-space-3);display:flex;flex-direction:column;flex:1">
+        <p class="zh-eyebrow" style="margin:0 0 0.5rem">🇭🇳 Honduras</p>
+        <h3 style="margin:0 0 var(--zh-space-2)">National Labor Intermediation Platform</h3>
+        <p style="font-size:var(--zh-fs-f5);color:var(--zh-fg-muted);flex:1;margin:0 0 var(--zh-space-3)">
+          Helping 43 chambers of commerce scale a national digital labor platform connecting 20,000 enterprises with job seekers across 17 departments.
+        </p>
+        <a class="zh-btn zh-btn--ghost" href="/projects/honduras/" style="align-self:flex-start">Read the story →</a>
+      </div>
+    </article>
+
+    {{/* Ethiopia card */}}
+    {{ $ethiopiaImg := resources.Get "images/projects/ethiopia/IMG_20230622_100346.jpg" }}
+    <article style="border:1px solid var(--zh-border);border-radius:var(--zh-radius-2);overflow:hidden;display:flex;flex-direction:column">
+      {{ if $ethiopiaImg }}
+      {{ $thumb := $ethiopiaImg.Resize "600x300 webp" }}
+      {{ $thumbFallback := $ethiopiaImg.Resize "600x300 jpg" }}
+      <picture>
+        <source srcset="{{ $thumb.RelPermalink }}" type="image/webp">
+        <img src="{{ $thumbFallback.RelPermalink }}" alt="Ethiopian tech professionals in a workshop session"
+             loading="lazy" width="600" height="300"
+             style="width:100%;height:200px;object-fit:cover;display:block">
+      </picture>
+      {{ end }}
+      <div style="padding:var(--zh-space-3);display:flex;flex-direction:column;flex:1">
+        <p class="zh-eyebrow" style="margin:0 0 0.5rem">🇪🇹 Ethiopia</p>
+        <h3 style="margin:0 0 var(--zh-space-2)">Tech SME Acceleration Programme</h3>
+        <p style="font-size:var(--zh-fs-f5);color:var(--zh-fg-muted);flex:1;margin:0 0 var(--zh-space-3)">
+          Helping 10+ Ethiopian software companies sharpen their products and fix their processes across three field visits to Addis Ababa, 2023–2024.
+        </p>
+        <a class="zh-btn zh-btn--ghost" href="/projects/ethiopia/" style="align-self:flex-start">Read the story →</a>
+      </div>
+    </article>
+
+  </div>
+</section>
+
+<hr class="zh-rule">
+
+{{/* ── CONTACT ──────────────────────────────────────────────────────── */}}
+<section id="contact" class="zh-section zh-container" aria-labelledby="contact-heading">
+  <div class="zh-prose zh-prose--center" style="margin-bottom:var(--zh-space-4)">
+    <h2 id="contact-heading">Book a Meeting</h2>
+    <p>Pick a time that works for you and tell us about your challenge. We will get back to you with a concrete proposal for the next development cycle.</p>
+  </div>
+
+  <div id="zh-booking-wrap" style="max-width:900px;margin:0 auto;min-height:400px">
+    <div id="zh-booking-placeholder" style="text-align:center;padding:3rem 1rem;border:1px solid var(--zh-border);border-radius:var(--zh-radius-2)">
+      <p style="margin:0 0 1rem;font-size:var(--zh-fs-f5);color:var(--zh-fg-muted)">Book a 30-minute meeting with us</p>
+      <button onclick="zhLoadBooking()" class="zh-btn zh-btn--primary">Open booking calendar</button>
+    </div>
+  </div>
+</section>
+
+<script>
+  function zhLoadBooking() {
+    var wrap = document.getElementById('zh-booking-wrap');
+    wrap.innerHTML = '<iframe src="https://outlook.office365.com/owa/calendar/Bookameeting@zerohunger.ai/bookings/" width="100%" height="700" scrolling="yes" title="Book a meeting" style="border:0;border-radius:var(--zh-radius-2);display:block"></iframe>';
+    wrap.style.minHeight = '700px';
+  }
+  // Auto-load the booking calendar when the section scrolls into view
+  (function () {
+    var loaded = false;
+    var section = document.getElementById('contact');
+    if (!section || !('IntersectionObserver' in window)) return;
+    var observer = new IntersectionObserver(function (entries) {
+      if (!loaded && entries[0].isIntersecting) {
+        loaded = true;
+        zhLoadBooking();
+        observer.disconnect();
+      }
+    }, { threshold: 0.1 });
+    observer.observe(section);
+  })();
+</script>
+
+{{ end }}

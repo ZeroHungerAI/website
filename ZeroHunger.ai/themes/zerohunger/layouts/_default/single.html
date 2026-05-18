@@ -1,0 +1,48 @@
+{{ define "main" }}
+{{ $featImg := .Params.featured_image }}
+{{ $isStaticPath := and $featImg (strings.HasPrefix $featImg "/") }}
+{{ if $isStaticPath }}
+<section class="zh-hero" style="background-image:url('{{ $featImg }}')">
+  <picture style="position:absolute;inset:0;z-index:0">
+    <img src="{{ $featImg }}" alt="{{ .Title }}"
+         style="width:100%;height:100%;object-fit:cover;display:block" loading="eager">
+  </picture>
+  <div class="zh-hero__inner">
+    <h1>{{ .Title }}</h1>
+    {{ with .Description }}<p class="dek">{{ . }}</p>{{ end }}
+  </div>
+</section>
+<article class="zh-container zh-section">
+  <div class="zh-prose">
+    {{ .Content }}
+  </div>
+</article>
+{{ else }}
+<article class="zh-container zh-section">
+  <div class="zh-prose">
+    {{ if $featImg }}
+    {{ $img := resources.Get $featImg }}
+    {{ if $img }}
+    {{ $img800 := $img.Resize "800x webp" }}
+    {{ $imgFallback := $img.Resize "800x jpg" }}
+    <picture style="display:block;margin-bottom:2rem">
+      <source srcset="{{ $img800.RelPermalink }}" type="image/webp">
+      <img src="{{ $imgFallback.RelPermalink }}" alt="{{ .Title }}"
+           style="width:100%;border-radius:var(--zh-radius-2);max-height:480px;object-fit:cover" loading="lazy">
+    </picture>
+    {{ end }}
+    {{ end }}
+
+    <header style="margin-bottom:var(--zh-space-4)">
+      <h1>{{ .Title }}</h1>
+      {{ if .Date }}
+      <p class="zh-meta">{{ .Date.Format "January 2, 2006" }}</p>
+      {{ end }}
+      {{ with .Description }}<p class="zh-lede">{{ . }}</p>{{ end }}
+    </header>
+
+    {{ .Content }}
+  </div>
+</article>
+{{ end }}
+{{ end }}
