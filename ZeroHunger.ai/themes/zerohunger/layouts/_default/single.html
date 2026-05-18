@@ -1,8 +1,27 @@
 {{ define "main" }}
+{{ $featImg := .Params.featured_image }}
+{{ $isStaticPath := and $featImg (strings.HasPrefix $featImg "/") }}
+{{ if $isStaticPath }}
+<section class="zh-hero" style="background-image:url('{{ $featImg }}')">
+  <picture style="position:absolute;inset:0;z-index:0">
+    <img src="{{ $featImg }}" alt="{{ .Title }}"
+         style="width:100%;height:100%;object-fit:cover;display:block" loading="eager">
+  </picture>
+  <div class="zh-hero__inner">
+    <h1>{{ .Title }}</h1>
+    {{ with .Description }}<p class="dek">{{ . }}</p>{{ end }}
+  </div>
+</section>
 <article class="zh-container zh-section">
   <div class="zh-prose">
-    {{ if .Params.featured_image }}
-    {{ $img := resources.Get .Params.featured_image }}
+    {{ .Content }}
+  </div>
+</article>
+{{ else }}
+<article class="zh-container zh-section">
+  <div class="zh-prose">
+    {{ if $featImg }}
+    {{ $img := resources.Get $featImg }}
     {{ if $img }}
     {{ $img800 := $img.Resize "800x webp" }}
     {{ $imgFallback := $img.Resize "800x jpg" }}
@@ -25,4 +44,5 @@
     {{ .Content }}
   </div>
 </article>
+{{ end }}
 {{ end }}
