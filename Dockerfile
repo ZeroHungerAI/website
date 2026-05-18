@@ -1,10 +1,24 @@
-FROM golang:1.21-alpine AS build
-RUN apk add --no-cache git gcc g++ musl-dev
-RUN go install github.com/gohugoio/hugo@v0.121.2
+# ── Stage 1: Build ────────────────────────────────────────────────────────────
+FROM hugomods/hugo:exts-0.152.2 AS builder
+
+ARG RELEASE_TAG=""
+ARG BASE_URL=""
+
 WORKDIR /src
 COPY ZeroHunger.ai ./ZeroHunger.ai
-RUN cd ZeroHunger.ai && hugo --minify
+COPY resources ./resources
+RUN cd ZeroHunger.ai && HUGO_ENABLEGITINFO=false hugo --minify --gc ${BASE_URL:+--baseURL "$BASE_URL"}
 
-FROM nginx:alpine
-COPY --from=build /src/ZeroHunger.ai/public /usr/share/nginx/html
+# ── Stage 2: Serve ────────────────────────────────────────────────────────────
+FROM nginx:1.27-alpine
+
+RUN rm -rf /usr/share/nginx/html/*
+
+COPY --from=builder /src/ZeroHunger.ai/public /usr/share/nginx/html
+
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+
 EXPOSE 80
+
+HEALTHCHECK --interval=30s --timeout=5s --start-period=5s --retries=3 \
+  CMD wget -qO- http://localhost/ || exit 1

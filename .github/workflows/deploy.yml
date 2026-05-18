@@ -1,36 +1,177 @@
----
-name: 'Deploy to Azure Storage Account'
+name: Deploy zerohunger.ai
+
+# Trigger rules:
+#   push to develop    →  build + deploy-dev (www.dev.zerohunger.ai on gpu1)
+#   v*.*.*-rc.*  tags  →  build + deploy-dev only
+#   v*.*.*       tags  →  build + deploy-dev + [approval gate] + deploy-prod (zerohunger.ai on cpu1)
+#   workflow_dispatch  →  build + deploy-dev only (manual smoke test)
+#
+# Production approval: GitHub → ZeroHungerAI/website → Settings → Environments
+#   → production → Required reviewers → add yourself
 
 on:
-  workflow_call: {}
-  workflow_dispatch: {}
+  push:
+    branches:
+      - develop
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-zerohunger-${{ github.ref }}
+  cancel-in-progress: false
 
 jobs:
-  deploy:
+  build:
+    name: Build & push Docker image
     runs-on: ubuntu-latest
-    environment: ${{ startsWith(github.ref_name, 'v') && contains(github.ref_name, '-rc') && 'qa' || 'prod' }}
+    outputs:
+      push_image:   ${{ steps.tag.outputs.push_image }}
+      deploy_image: ${{ steps.tag.outputs.deploy_image }}
+      tag:          ${{ steps.tag.outputs.tag }}
+      is_release:   ${{ steps.classify.outputs.is_release }}
+
+    permissions:
+      contents: read
+
     steps:
-      - uses: actions/checkout@v2
-        
-      - name: Download built website
-        uses: actions/download-artifact@v3
+      - uses: actions/checkout@v4
         with:
-          name: public
-          path: ./public
+          fetch-depth: 0
 
-      - name: Azure login
-        uses: azure/login@v1
-        with:
-          creds: ${{ secrets.AZURE_SERVICE_PRINCIPAL }}
+      - name: Classify tag
+        id: classify
+        run: |
+          REF="${GITHUB_REF_NAME:-}"
+          if [[ "$REF" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo "is_release=true"  >> "$GITHUB_OUTPUT"
+            echo "base_url=https://www.zerohunger.ai" >> "$GITHUB_OUTPUT"
+          else
+            echo "is_release=false" >> "$GITHUB_OUTPUT"
+            echo "base_url=https://www.dev.zerohunger.ai" >> "$GITHUB_OUTPUT"
+          fi
 
-      - name: Deploy to Azure Storage Account
-        uses: azure/CLI@v1
+      - name: Generate image tag
+        id: tag
+        run: |
+          SANITIZED_REF=$(echo "${GITHUB_REF_NAME:-dispatch}" | sed 's|[^a-zA-Z0-9._-]|-|g')
+          TAG="${SANITIZED_REF}-$(git rev-parse --short HEAD)"
+          echo "tag=${TAG}" >> "$GITHUB_OUTPUT"
+          echo "push_image=registry.hackation.de/zerohunger-web:${TAG}"   >> "$GITHUB_OUTPUT"
+          echo "deploy_image=registry.hackation.de/zerohunger-web:${TAG}" >> "$GITHUB_OUTPUT"
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v5
         with:
-          azcliversion: latest
-          inlineScript: |
-            az storage blob upload-batch \
-              --account-name ${{ secrets.AZURE_STORAGE_ACCOUNT_NAME }} \
-              --source ./public \
-              --destination '$web' \
-              --overwrite true \
-              --auth-mode login
+          context: .
+          push: true
+          platforms: linux/amd64
+          tags: ${{ steps.tag.outputs.push_image }}
+          build-args: |
+            RELEASE_TAG=${{ github.ref_name }}
+            BASE_URL=${{ steps.classify.outputs.base_url }}
+
+  # ── Staging deploy ──────────────────────────────────────────────────────────
+  deploy-dev:
+    name: Deploy to staging (www.dev.zerohunger.ai)
+    runs-on: arc-runner-zerohunger
+    needs: build
+    environment: staging
+    container:
+      image: bitnami/kubectl:latest
+
+    steps:
+      - name: Configure in-cluster kubectl
+        run: |
+          KUBE_TOKEN=$(cat /var/run/secrets/kubernetes.io/serviceaccount/token)
+          KUBE_CA=/var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+          kubectl config set-cluster k3s \
+            --server=https://kubernetes.default.svc \
+            --certificate-authority="${KUBE_CA}"
+          kubectl config set-credentials arc-runner --token="${KUBE_TOKEN}"
+          kubectl config set-context k3s --cluster=k3s --user=arc-runner
+          kubectl config use-context k3s
+
+      - name: Deploy to staging
+        env:
+          IMAGE: ${{ needs.build.outputs.deploy_image }}
+        run: |
+          kubectl set image deployment/zerohunger-web-dev \
+            nginx="${IMAGE}" \
+            -n dev
+          kubectl rollout status deployment/zerohunger-web-dev \
+            -n dev \
+            --timeout=5m
+
+      - name: Debug pod status on failure
+        if: failure()
+        run: |
+          echo "=== Pods ==="
+          kubectl get pods -n dev -l app=zerohunger-web-dev -o wide
+          echo "=== Events ==="
+          kubectl get events -n dev --sort-by='.lastTimestamp' | tail -20
+          echo "=== Pod describe ==="
+          kubectl describe pods -n dev -l app=zerohunger-web-dev | tail -40
+
+      - name: Report
+        if: success()
+        run: echo "Staging deploy complete — ${{ needs.build.outputs.tag }} → https://www.dev.zerohunger.ai"
+
+  # ── Production deploy (release tags only, requires approval) ────────────────
+  deploy-prod:
+    name: Deploy to production (zerohunger.ai)
+    runs-on: arc-runner-zerohunger
+    needs: [build, deploy-dev]
+    if: needs.build.outputs.is_release == 'true'
+    environment:
+      name: production
+      url: https://www.zerohunger.ai
+    container:
+      image: bitnami/kubectl:latest
+
+    steps:
+      - name: Configure cross-cluster kubectl (cpu1)
+        env:
+          CPU1_KUBECONFIG: ${{ secrets.CPU1_KUBECONFIG }}
+        run: |
+          mkdir -p ~/.kube
+          echo "${CPU1_KUBECONFIG}" | base64 -d > ~/.kube/config
+          chmod 600 ~/.kube/config
+          kubectl get deployment zerohunger-web -n crm-ops -o name
+
+      - name: Deploy to production
+        env:
+          IMAGE: ${{ needs.build.outputs.deploy_image }}
+        run: |
+          kubectl set image deployment/zerohunger-web \
+            nginx="${IMAGE}" \
+            -n crm-ops
+          kubectl rollout status deployment/zerohunger-web \
+            -n crm-ops \
+            --timeout=10m
+
+      - name: Debug pod status on failure
+        if: failure()
+        run: |
+          echo "=== Deployment ==="
+          kubectl get deployment zerohunger-web -n crm-ops -o wide
+          echo ""
+          echo "=== Pods ==="
+          kubectl get pods -n crm-ops -l app=zerohunger-web -o wide
+          echo ""
+          echo "=== Pod describe ==="
+          kubectl describe pods -n crm-ops -l app=zerohunger-web | tail -80
+          echo ""
+          echo "=== Events (last 30) ==="
+          kubectl get events -n crm-ops --sort-by='.lastTimestamp' | tail -30
+
+      - name: Cleanup kubeconfig
+        if: always()
+        run: rm -f ~/.kube/config
+
+      - name: Report
+        if: success()
+        run: echo "Production deploy complete — ${{ needs.build.outputs.tag }} → https://www.zerohunger.ai"
