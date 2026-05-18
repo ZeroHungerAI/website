@@ -14,14 +14,14 @@
 <div class="zh-gallery" role="list" aria-label="{{ with $caption }}{{ . }}{{ else }}Photo gallery{{ end }}">
   {{ range $all }}
   {{ $src := . }}
-  {{ $thumb := $src.Resize "600x webp photo" }}
-  {{ $full  := $src.Resize "1200x webp photo" }}
-  {{ $fallback := $src.Resize "1200x jpg" }}
+  {{ $thumb := $src.Resize "600x webp q82" }}
+  {{ $full  := $src.Resize "1200x webp q82" }}
+  {{ $fallback := $src.Resize "1200x jpg q82" }}
   <figure class="zh-gallery__item" role="listitem">
     <a href="{{ $full.RelPermalink }}" target="_blank" rel="noopener">
       <picture>
         <source srcset="{{ $thumb.RelPermalink }}" type="image/webp">
-        {{ $thumbFallback := $src.Resize "600x jpg photo" }}
+        {{ $thumbFallback := $src.Resize "600x jpg q82" }}
         <img src="{{ $thumbFallback.RelPermalink }}"
              alt=""
              loading="lazy"
