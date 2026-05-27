@@ -25,16 +25,13 @@ test.describe('Homepage', () => {
     await expect(page.getByRole('link', { name: /Read the story/i }).first()).toBeVisible();
   });
 
-  test('shows contact form', async ({ page }) => {
+  test('shows booking calendar section', async ({ page }) => {
     await goto(page, '/');
     const contactSection = page.locator('#contact');
     await contactSection.scrollIntoViewIfNeeded();
     await expect(contactSection).toBeVisible();
-    await expect(contactSection.locator('form')).toBeVisible();
-    await expect(contactSection.locator('input[name="name"]')).toBeVisible();
-    await expect(contactSection.locator('input[name="email"]')).toBeVisible();
-    await expect(contactSection.locator('textarea[name="message"]')).toBeVisible();
-    await expect(contactSection.locator('button[type="submit"]')).toBeVisible();
+    // IntersectionObserver fires on scroll and replaces #zh-booking-placeholder with iframe.
+    await expect(contactSection.locator('#zh-booking-wrap iframe')).toBeVisible();
   });
 
   test('golden snapshot — full page', async ({ page }) => {
