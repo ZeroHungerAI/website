@@ -2,7 +2,7 @@ import { Page } from '@playwright/test';
 
 /** Dismiss the ZeroHunger.ai cookie consent banner if present. */
 export async function dismissCookies(page: Page): Promise<void> {
-  const approveBtn = page.locator('#consent-notice button.approve-consent');
+  const approveBtn = page.locator('button.zh-cookie__accept');
   try {
     await approveBtn.click({ timeout: 3000 });
   } catch {

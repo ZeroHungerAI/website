@@ -9,18 +9,21 @@ test.describe('Contact', () => {
     await expect(page.getByRole('heading', { name: 'Received!' })).not.toBeVisible();
     await expect(page.getByText('Thank you for your message.')).not.toBeVisible();
 
-    // Should land on the homepage (or a page with the contact form)
+    // Should land on the homepage contact section
+    // #zh-booking-placeholder auto-loads the iframe via IntersectionObserver on scroll,
+    // so assert on the persistent wrapper instead.
     await expect(page).toHaveURL(/\/#contact$|\/$/);
-    await expect(page.locator('#contact form')).toBeVisible();
+    await expect(page.locator('#zh-booking-wrap')).toBeVisible();
   });
 
-  test('homepage /#contact anchor shows the contact form', async ({ page }) => {
+  test('homepage /#contact anchor shows the booking section', async ({ page }) => {
     await goto(page, '/#contact');
     const contactSection = page.locator('#contact');
     await contactSection.scrollIntoViewIfNeeded();
-    await expect(contactSection.locator('form')).toBeVisible();
-    await expect(contactSection.locator('input[name="name"]')).toBeVisible();
-    await expect(contactSection.locator('input[name="email"]')).toBeVisible();
+    // IntersectionObserver fires on scroll → zhLoadBooking() replaces placeholder with iframe.
+    // Wait up to 10s for the iframe to appear after the observer triggers.
+    await expect(contactSection.locator('#zh-booking-wrap')).toBeVisible();
+    await expect(contactSection.locator('#zh-booking-wrap iframe')).toBeVisible({ timeout: 10000 });
   });
 
   test('/thanks/ shows confirmation message (shown after form submit)', async ({ page }) => {
