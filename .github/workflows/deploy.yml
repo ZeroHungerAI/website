@@ -24,7 +24,7 @@ concurrency:
 jobs:
   build:
     name: Build & push Docker image
-    runs-on: ubuntu-latest
+    runs-on: arc-runner-zerohunger-org
     outputs:
       push_image:   ${{ steps.tag.outputs.push_image }}
       deploy_image: ${{ steps.tag.outputs.deploy_image }}
