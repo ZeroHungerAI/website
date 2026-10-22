@@ -13,7 +13,7 @@ RUN cd ZeroHunger.ai && HUGO_ENABLEGITINFO=false HUGO_PARAMS_BREVOAPIKEY="$HUGO_
     hugo --minify --gc ${BASE_URL:+--baseURL "$BASE_URL"}
 
 # ── Stage 2: Serve ────────────────────────────────────────────────────────────
-FROM nginx:1.27-alpine
+FROM nginx:1.30-alpine
 
 RUN rm -rf /usr/share/nginx/html/*
 
